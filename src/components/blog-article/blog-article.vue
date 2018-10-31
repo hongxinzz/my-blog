@@ -1,52 +1,46 @@
 <template>
-  <!--博客主体-->
-  <main>
-    <div class="blog-content">
-      <!--文章部分-->
-      <div class="article-list">
-        <article class="article-item">
-          <div class="post-cover">
-            <a href=""></a>
-            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3151154532,1206749425&fm=26&gp=0.jpg" alt="">
-          </div>
-          <section class="post-preview">
-            <a href=""></a>
-            <h2>假如我有一条很长的标题</h2>
-            <h3>假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明</h3>
-          </section>
-          <footer class="post-meta">
-            <div class="post-tags">
-              <a href="">我是标签1</a>
-              <a href="">我是标签2</a>
-            </div>
-            <time class="post-date">
-              2018
-            </time>
-          </footer>
-        </article>
-        <article class="article-item">
-          <div class="post-cover">
-            <a href=""></a>
-            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3151154532,1206749425&fm=26&gp=0.jpg" alt="">
-          </div>
-          <section class="post-preview">
-            <a href=""></a>
-            <h2>假如我有一条很长的标题</h2>
-            <h3>假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明</h3>
-          </section>
-          <footer class="post-meta">
-            <div class="post-tags">
-              <a href="">我是标签1</a>
-              <a href="">我是标签2</a>
-            </div>
-            <time class="post-date">
-              2018
-            </time>
-          </footer>
-        </article>
+  <div class="article-list">
+    <article class="article-item">
+      <div class="post-cover">
+        <a href=""></a>
+        <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3151154532,1206749425&fm=26&gp=0.jpg" alt="">
       </div>
-    </div>
-  </main>
+      <section class="post-preview">
+        <a href=""></a>
+        <h2>假如我有一条很长的标题</h2>
+        <h3>假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明</h3>
+      </section>
+      <footer class="post-meta">
+        <div class="post-tags">
+          <a href="">我是标签1</a>
+          <a href="">我是标签2</a>
+        </div>
+        <time class="post-date">
+          2018
+        </time>
+      </footer>
+    </article>
+    <article class="article-item">
+      <div class="post-cover">
+        <a href=""></a>
+        <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3151154532,1206749425&fm=26&gp=0.jpg" alt="">
+      </div>
+      <section class="post-preview">
+        <a href=""></a>
+        <h2>假如我有一条很长的标题</h2>
+        <h3>假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明</h3>
+      </section>
+      <footer class="post-meta">
+        <div class="post-tags">
+          <a href="">我是标签1</a>
+          <a href="">我是标签2</a>
+        </div>
+        <time class="post-date">
+          2018
+        </time>
+      </footer>
+    </article>
+  </div>
 </template>
 
 <script>
@@ -56,9 +50,6 @@ export default {
 </script>
 
 <style lang="scss">
-  .blog-content{
-    width: 1000px;
-    margin: 40px auto 60px;
     .article-list{
       float: left;
       width: 695px;
@@ -160,5 +151,4 @@ export default {
           }
         }
       }
-    }
 </style>

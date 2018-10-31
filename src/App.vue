@@ -3,22 +3,24 @@
     <div class="blog-wrap">
       <!--header -->
       <blogHeader />
+      <!--大图部分-->
       <div class="blog-banner">
         <h2>卓鸿鑫,前端爱好者</h2>
         <h3>Just Do It !</h3>
       </div>
+      <!--中间主体-->
+      <blogContent />
     </div>
-    <blogArticle />
     <router-view/>
   </div>
 </template>
 
 <script>
 import blogHeader from './components/blog-header/blogHeader'
-import blogArticle from './components/blog-article/blog-article'
+import blogContent from './components/blog-content/blog-content'
 export default {
   name: 'App',
-  components: {blogHeader,blogArticle}
+  components: {blogHeader,blogContent}
 }
 </script>
 
