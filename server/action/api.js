@@ -1,11 +1,27 @@
 const url = require('url')
 const qs = require('querystring')
 const UserReg = require('../module/person')
+const fs = require('fs')
+const marked = require('marked')
 
 const httpApi = function (req, res) {
   let method = req.method
   let urlObj = url.parse(req.url)
   let pathname = urlObj.pathname
+
+  /**
+   * 获取markdown
+   */
+
+  if (method === 'GET' && pathname === '/api/getMd') {
+    fs.readFile('../../markdown/*.md', function (err, data) {
+      let html = marked(data.toString())
+      returnJSON(res, {
+        code: -1,
+        msg: html
+      })
+    })
+  }
   // 判断是否post接口并且是用户注册
   if (method === 'POST' && pathname === '/api/user_reg') {
     let body = ''
@@ -75,70 +91,70 @@ const httpApi = function (req, res) {
     })
   }
   // 提交文章
-  if (method === 'POST' && pathname === '/api/post_article') {
-    let body = ''
-    // 获取body
-    req.on('data', function (chunk) {
-      body += chunk
-    })
-    req.on('end', function () {
-      let data = JSON.parse(body)
-      console.log(data)
-      // 实例化Person
-      let person = new UserReg({
-        id: data.id,
-        title: data.title,
-        cover: data.cover,
-        content: data.content,
-        tags: data.tags,
-        time: data.time
-      })
-      person.save(function (err, comment) {
-        if (comment) {
-          returnJSON(res, {
-            code: 1,
-            msg: '增加文章成功'+comment._id
-          })
-        } else {
-          returnJSON(res, {
-            code: -1,
-            msg: '增加文章失败'
-          })
-        }
-      })
-    })
-  }
+  // if (method === 'POST' && pathname === '/api/post_article') {
+  //   let body = ''
+  //   // 获取body
+  //   req.on('data', function (chunk) {
+  //     body += chunk
+  //   })
+  //   req.on('end', function () {
+  //     let data = JSON.parse(body)
+  //     console.log(data)
+  //     // 实例化Person
+  //     let person = new UserReg({
+  //       id: data.id,
+  //       title: data.title,
+  //       cover: data.cover,
+  //       content: data.content,
+  //       tags: data.tags,
+  //       time: data.time
+  //     })
+  //     person.save(function (err, comment) {
+  //       if (comment) {
+  //         returnJSON(res, {
+  //           code: 1,
+  //           msg: '增加文章成功' + comment._id
+  //         })
+  //       } else {
+  //         returnJSON(res, {
+  //           code: -1,
+  //           msg: '增加文章失败'
+  //         })
+  //       }
+  //     })
+  //   })
+  // }
   //  修改文章
-  if (method === 'POST' && pathname === '/api/update_article') {
-    let body = ''
-    // 获取body
-    req.on('data', function (chunk) {
-      body += chunk
-    })
-    req.on('end', function () {
-      let data = JSON.parse(body)
-      console.log(data)
-      // 修改的数据
-      let update = {$set: {title: data.title, cover: data.cover, content: data.content, ags: data.tags, time: data.time}}
-      let option = { multi: true}
-      UserReg.updateMany({_id: data.id}, update, option, function (err, comment) {
-        console.log(comment)
-          if(comment.ok){
-            returnJSON(res, {
-              code: 1,
-              msg: '修改文章成功'
-            })
-          }else{
-            console.log(err)
-            returnJSON(res, {
-              code: -1,
-              msg: '修改文章失败'
-            })
-          }
-      })
-    })
-  }
-}
+//   if (method === 'POST' && pathname === '/api/update_article') {
+//     let body = ''
+//     // 获取body
+//     req.on('data', function (chunk) {
+//       body += chunk
+//     })
+//     req.on('end', function () {
+//       let data = JSON.parse(body)
+//       console.log(data)
+//       // 修改的数据
+//       let update = {$set: {title: data.title, cover: data.cover, content: data.content, ags: data.tags, time: data.time}}
+//       let option = { multi: true}
+//       UserReg.updateMany({_id: data.id}, update, option, function (err, comment) {
+//         console.log(comment)
+//         if (comment.ok) {
+//           returnJSON(res, {
+//             code: 1,
+//             msg: '修改文章成功'
+//           })
+//         } else {
+//           console.log(err)
+//           returnJSON(res, {
+//             code: -1,
+//             msg: '修改文章失败'
+//           })
+//         }
+//       })
+//     })
+//   }
+// }
 
 function returnJSON (res, json) {
   // 设置状态码为200
