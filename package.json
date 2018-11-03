@@ -15,6 +15,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "iview": "^3.1.4",
     "markdown-js": "^0.0.4",
     "marked": "^0.5.1",
     "moment": "^2.22.2",
