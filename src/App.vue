@@ -1,58 +1,20 @@
 <template>
-  <div id="app">
-    <div class="blog-wrap">
-      <!--header -->
-      <blogHeader />
-      <!--大图部分-->
-      <div class="blog-banner">
-        <h2>卓鸿鑫,前端爱好者</h2>
-        <h3>Just Do It !</h3>
-      </div>
-      <!--中间主体-->
-      <blogContent />
-    </div>
+  <div id="app" class="app">
     <router-view/>
   </div>
 </template>
 
 <script>
-import blogHeader from './components/blog-header/blogHeader'
-import blogContent from './components/blog-content/blog-content'
 export default {
-  name: 'App',
-  components: {blogHeader,blogContent}
+  name: 'App'
 }
 </script>
 
-<style lang="scss">
-*{
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  text-decoration: none;
-}
-  .blog-wrap{
-    .blog-banner{
-      width: 100%;
-      height:460px;
-      text-align: center;
-      color: #fff;
-      background: linear-gradient(100deg,#ff6e7f,#bfe9ff);
-      box-shadow: 0 4px 20px rgba(0,38,55,.16);
-      h2{padding-top: 190px;
-        font-size: 42px;
-        font-family: Arial,'Hiragino Sans GB','Microsoft YaHei','WenQuanYi Micro Hei',sans-serif;
-        font-weight: 700;
-        letter-spacing: 2px;
-        line-height: 52px;
-        text-shadow: 0 1px 1px rgba(0,0,0,.2);
-      }
-      h3{
-        font-size: 20px;
-        font-weight: 400;
-        letter-spacing: 10px;
-        margin-top: 8px;
-      }
-    }
+<style>
+  .app,html,body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
   }
 </style>
