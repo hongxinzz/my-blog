@@ -1,8 +1,5 @@
 const mongoose = require('mongoose')
 
-
-
-
 // 发布文章模板
 const post_article = new mongoose.Schema({
   id: Number,
@@ -12,8 +9,5 @@ const post_article = new mongoose.Schema({
   tags: Array,
   time: String
 })
-
-
-
 
 module.exports = mongoose.model('PostArticle', post_article)

@@ -1,13 +1,13 @@
-<template>
-  <div class="article-list">
-    <article class="article-item">
+<template lang="ejs">
+  <div class="article-list" v-if="blogList">
+    <article class="article-item" v-for=" blog in blogList">
       <div class="post-cover">
         <a href=""></a>
         <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3151154532,1206749425&fm=26&gp=0.jpg" alt="">
       </div>
       <section class="post-preview">
         <a href=""></a>
-        <h2>假如我有一条很长的标题</h2>
+        <h2>{{blog.title}}</h2>
         <h3>假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明</h3>
       </section>
       <footer class="post-meta">
@@ -16,27 +16,7 @@
           <a href="">我是标签2</a>
         </div>
         <time class="post-date">
-          2018
-        </time>
-      </footer>
-    </article>
-    <article class="article-item">
-      <div class="post-cover">
-        <a href=""></a>
-        <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3151154532,1206749425&fm=26&gp=0.jpg" alt="">
-      </div>
-      <section class="post-preview">
-        <a href=""></a>
-        <h2>假如我有一条很长的标题</h2>
-        <h3>假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明</h3>
-      </section>
-      <footer class="post-meta">
-        <div class="post-tags">
-          <a href="">我是标签1</a>
-          <a href="">我是标签2</a>
-        </div>
-        <time class="post-date">
-          2018
+          {{blog.time}}
         </time>
       </footer>
     </article>
@@ -45,7 +25,24 @@
 
 <script>
 export default {
-  name: 'blog-article'
+  name: 'blog-article',
+  data () {
+    return {
+      blogList: []
+    }
+  },
+  created: function () {
+    this.getBlogList()
+  },
+  methods: {
+    getBlogList () {
+      this.axios.get('/api/get_blogs').then(data => {
+        console.log(data.data)
+        console.log(data.data.data[0].time)
+        this.blogList = data.data.data
+      })
+    }
+  }
 }
 </script>
 
