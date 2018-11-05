@@ -3,6 +3,8 @@ const UserReg = require('../module/userReg')
 const UserLogin = require('../module/login')
 const updataArtcile = require('../module/updataArticle')
 const postArticle = require('../module/postArticle')
+const fs = require('fs')
+const marked = require('marked')
 
 const httpApi = function (req, res) {
   let method = req.method
@@ -64,7 +66,7 @@ const httpApi = function (req, res) {
       console.log(data.userName)
       // 实例化Person
       UserReg.findOne({userName: data.userName, password: data.password}, function (err, comment) {
-        console.log(data.userName,comment,err)
+        console.log(data.userName, comment, err)
         if (comment && comment.userName === data.userName && comment.password === data.password) {
           returnJSON(res, {
             code: 1,
@@ -80,75 +82,98 @@ const httpApi = function (req, res) {
     })
   }
   // 提交文章
-  if (method === 'POST' && pathname === '/api/post_article') {
-    let body = ''
-    // 获取body
-    req.on('data', function (chunk) {
-      body += chunk
-    })
-    req.on('end', function () {
-      let data = JSON.parse(body)
-      console.log(data)
-      // 实例化Person
-      let person = new postArticle({
-        id: data.id,
-        title: data.title,
-        cover: data.cover,
-        content: data.content,
-        tags: data.tags,
-        time: data.time
-      })
-      person.save(function (err, comment) {// eslint-disable-line
-        if (comment) {
-          returnJSON(res, {
-            code: 1,
-            msg: '增加文章成功' + comment._id
-          })
-        } else {
-          returnJSON(res, {
-            code: -1,
-            msg: '增加文章失败'
-          })
-        }
-      })
-    })
-  }
+  // if (method === 'POST' && pathname === '/api/post_article') {
+  //   let body = ''
+  //   // 获取body
+  //   req.on('data', function (chunk) {
+  //     body += chunk
+  //   })
+  //   req.on('end', function () {
+  //     let data = JSON.parse(body)
+  //     console.log(data)
+  //     // 实例化Person
+  //     let person = new postArticle({
+  //       id: data.id,
+  //       title: data.title,
+  //       cover: data.cover,
+  //       content: data.content,
+  //       tags: data.tags,
+  //       time: data.time
+  //     })
+  //     person.save(function (err, comment) {// eslint-disable-line
+  //       if (comment) {
+  //         returnJSON(res, {
+  //           code: 1,
+  //           msg: '增加文章成功' + comment._id
+  //         })
+  //       } else {
+  //         returnJSON(res, {
+  //           code: -1,
+  //           msg: '增加文章失败'
+  //         })
+  //       }
+  //     })
+  //   })
+  // }
   //  修改文章
-  if (method === 'POST' && pathname === '/api/update_article') {
-    let body = ''
-    // 获取body
-    req.on('data', function (chunk) {
-      body += chunk
-    })
-    req.on('end', function () {
-      let data = JSON.parse(body)
-      console.log(data)
-      // 修改的数据
-      let update = {
-        $set: {
-          title: data.title,
-          cover: data.cover,
-          content: data.content,
-          ags: data.tags,
-          time: data.time
-        }
+  //   if (method === 'POST' && pathname === '/api/update_article') {
+  //     let body = ''
+  //     // 获取body
+  //     req.on('data', function (chunk) {
+  //       body += chunk
+  //     })
+  //     req.on('end', function () {
+  //       let data = JSON.parse(body)
+  //       console.log(data)
+  //       // 修改的数据
+  //       let update = {
+  //         $set: {
+  //           title: data.title,
+  //           cover: data.cover,
+  //           content: data.content,
+  //           ags: data.tags,
+  //           time: data.time
+  //         }
+  //       }
+  //       let option = {multi: true}
+  //       updataArtcile.updateMany({_id: data.id}, update, option, function (err, comment) {// eslint-disable-line
+  //         console.log(comment)
+  //         if (comment.ok) {
+  //           returnJSON(res, {
+  //             code: 1,
+  //             msg: '修改文章成功'
+  //           })
+  //         } else {
+  //           console.log(err)
+  //           returnJSON(res, {
+  //             code: -1,
+  //             msg: '修改文章失败'
+  //           })
+  //         }
+  //       })
+  //     })
+  //   }
+  // }
+
+  // 读取blog
+  if (method === 'GET' && pathname === '/api/get_blogs') {
+    console.log(1)
+    postArticle.find({}, function (err, comment) {
+      console.log(comment)
+      if (comment) {
+        returnJSON(res, {
+          code: 1,
+          msg: '获取文章成功',
+          data: comment
+        })
+        res.render('content', comment)
+      } else {
+        console.log(err)
+        returnJSON(res, {
+          code: -1,
+          msg: '获取文章失败'
+        })
       }
-      let option = {multi: true}
-      updataArtcile.updateMany({_id: data.id}, update, option, function (err, comment) {// eslint-disable-line
-        console.log(comment)
-        if (comment.ok) {
-          returnJSON(res, {
-            code: 1,
-            msg: '修改文章成功'
-          })
-        } else {
-          console.log(err)
-          returnJSON(res, {
-            code: -1,
-            msg: '修改文章失败'
-          })
-        }
-      })
     })
   }
 }
