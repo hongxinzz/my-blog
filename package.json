@@ -12,7 +12,8 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "md2html": "node server/action/markHtml"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -24,6 +25,7 @@
     "node-sass": "^4.9.4",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.2",
+    "vue-highlightjs": "^1.3.3",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
