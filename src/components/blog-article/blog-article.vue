@@ -2,20 +2,19 @@
   <div class="article-list" v-if="blogList">
     <article class="article-item" v-for=" blog in blogList">
       <div class="post-cover">
-        <a href=""></a>
-        <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3151154532,1206749425&fm=26&gp=0.jpg" alt="">
+        <a> <router-link  :to="{name:'details',params: {id:blog._id}}"></router-link></a>
+        <img :src="blog.cover" alt="">
       </div>
       <section class="post-preview">
-        <a href=""></a>
+        <a><router-link  :to="{name:'details',params: {id:blog._id}}"></router-link></a>
         <h2>{{blog.title}}</h2>
-        <h3>假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明假如我有一条很长的说明</h3>
+        <h3>{{blog.introduction}}</h3>
       </section>
       <footer class="post-meta">
         <div class="post-tags">
-          <a href="">我是标签1</a>
-          <a href="">我是标签2</a>
+          <a href="" v-for="tags in getTags(blog.tags)">{{tags}}</a>
         </div>
-        <time class="post-date">
+        <time class="post-date" >
           {{blog.time}}
         </time>
       </footer>
@@ -41,6 +40,10 @@ export default {
         console.log(data.data.data[0].time)
         this.blogList = data.data.data
       })
+    },
+    getTags (list) {
+      let newList = list.split(' ')
+      return newList
     }
   }
 }
@@ -110,16 +113,15 @@ export default {
               width: auto;
               height: 22px;
               padding: 0 8px;
+              margin-right: 8px;
               font-size: 14px;
               color: #a6abb2;
-              /*font-family: -apple-system,Verdana,"PingFang SC","Helvetica Neue",Arial,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;*/
               line-height: 22px;
               box-sizing: border-box;
               box-shadow: 0 0 0.6px #d5dae1;
               border-radius: 2px;
               background-color: #fafafa;
               cursor: pointer;
-              margin-right: 2px;
               &:last-child{
                 margin-right: 0;
               }
