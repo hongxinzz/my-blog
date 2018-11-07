@@ -166,7 +166,27 @@ const httpApi = function (req, res) {
           msg: '获取文章成功',
           data: comment
         })
-        res.render('content', comment)
+      } else {
+        console.log(err)
+        returnJSON(res, {
+          code: -1,
+          msg: '获取文章失败'
+        })
+      }
+    })
+  }
+  // 读取blog 单独的 为blog详情页面
+  if (method === 'GET' && pathname === '/api/get_blogs_one') {
+    let blogObj = url.parse(req.url, true).query
+    let blogId = blogObj.id
+    postArticle.find({_id: blogId}, function (err, comment) {
+      console.log(comment)
+      if (comment) {
+        returnJSON(res, {
+          code: 1,
+          msg: '获取文章成功',
+          data: comment
+        })
       } else {
         console.log(err)
         returnJSON(res, {
