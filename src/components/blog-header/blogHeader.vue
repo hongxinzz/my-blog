@@ -34,8 +34,8 @@ export default {
         float: left;
         height: 26px;
         line-height: 26px;
-        text-transform: uppercase;
         margin-right: 18px;
+        list-style: none;
         a{
           display: inline-block;
           font-size: 14px;
