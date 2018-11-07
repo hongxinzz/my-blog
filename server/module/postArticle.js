@@ -5,8 +5,9 @@ const post_article = new mongoose.Schema({
   id: Number,
   title: String,
   cover: String,
+  introduction:String,
   content: String,
-  tags: Array,
+  tags: String,
   time: String
 })
 
