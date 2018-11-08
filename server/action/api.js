@@ -196,6 +196,59 @@ const httpApi = function (req, res) {
       }
     })
   }
+  // 读取blog 的标签
+  if (method === 'GET' && pathname === '/api/get_blogs_tags') {
+    let blogObj = url.parse(req.url, true).query
+    let blogTags = blogObj.tags
+    postArticle.find({tags: {$type: 'string'}}, function (err, comment) {
+      let tagsStr = ' '
+      let tagsArr = []
+      comment.forEach(data => {
+        if (data.tags) {
+          tagsStr += data.tags + ' '
+        }
+      })
+      if (comment && tagsStr) {
+        let tags = tagsStr.replace(/[\r\n]/g, '')
+        tagsArr = tags.split(' ')
+        let tagList = Array.from(new Set(tagsArr))
+        console.log(tagList)
+        returnJSON(res, {
+          code: 1,
+          msg: '获取标签成功',
+          data: tagList
+        })
+      } else {
+        console.log(err)
+        returnJSON(res, {
+          code: -1,
+          msg: '获取标签失败'
+        })
+      }
+    })
+  }
+  // 读取blog 的标签对应文章
+  if (method === 'GET' && pathname === '/api/get_blogs_by_tags') {
+    let blogObj = url.parse(req.url, true).query
+    let blogTags = blogObj.tags
+    console.log(blogTags)
+    postArticle.find({tags: blogTags}, function (err, comment) {
+      console.log(comment)
+      if (comment) {
+        returnJSON(res, {
+          code: 1,
+          msg: '获取对应文章成功',
+          data: comment
+        })
+      } else {
+        console.log(err)
+        returnJSON(res, {
+          code: -1,
+          msg: '获取对应文章失败'
+        })
+      }
+    })
+  }
 }
 function returnJSON (res, json) {
   // 设置状态码为200
