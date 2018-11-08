@@ -3,8 +3,8 @@
     <div class="logo"></div>
     <nav class="r-nav">
       <ul>
-        <li><a href="">HOME</a></li>
-        <li><a href="">TAGS</a></li>
+        <li><router-link to="/">HOME</router-link></li>
+        <li><router-link to="/tags">TAGS</router-link></li>
       </ul>
     </nav>
   </div>
