@@ -1,16 +1,16 @@
 <template>
   <div class="details-wrap">
     <blogHeader />
-    <div class="details-banner">
+    <div class="details-banner" v-if="blogData">
         <div class="details-header">
           <div class="header-tags">
-            <a href="">前端</a>
-            <a href="">html</a>
+            <router-link v-for="tags in getTags(blogData.tags)"  to="/tags">{{tags}}</router-link>
+            <!--<a href="">html</a>-->
           </div>
-          <h1>我是一个标题</h1>
+          <h1>{{blogData.title}}</h1>
           <div class="header-time">
             <span>卓鸿鑫</span>
-            <span>2018-11-7</span>
+            <span>{{blogData.time}}</span>
           </div>
         </div>
     </div>
@@ -48,12 +48,17 @@ export default {
       }).then(err => {
         console.log(err)
       })
+    },
+    getTags (list) {
+      console.log(list.split(' '))
+      let newList = list.split(' ')
+      return newList
     }
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
 .details-banner{
   position: relative;
   height: 460px;
@@ -114,6 +119,42 @@ export default {
     box-sizing: border-box;
     padding: 0 0 32px;
     margin: 0 auto;
+    p{
+      margin-bottom: 16px;
+      font-size: 17px;
+      line-height: 1.8;
+      text-align: justify;
+    }
+    .hljs{
+      padding: 1em;
+      margin: .5em 0;
+      overflow: auto;
+      border-radius: 0.3em;
+      text-align: left;
+      white-space: pre;
+      word-spacing: normal;
+      word-break: normal;
+      word-wrap: normal;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .bounce-enter-active {
+      animation: bounce-in .5s;
+    }
+    .bounce-leave-active {
+      animation: bounce-in .5s reverse;
+    }
+    @keyframes bounce-in {
+      0% {
+        transform: scale(0);
+      }
+      50% {
+        transform: scale(1.5);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
   }
 }
 </style>
