@@ -7,6 +7,7 @@ import axios from 'axios'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import Highlight from './plugins/highlight'
+import 'highlight.js/styles/atom-one-dark-reasonable.css'
 
 
 Vue.config.productionTip = false
