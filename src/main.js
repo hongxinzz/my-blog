@@ -4,14 +4,14 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
+import iView from 'iview'
+import store from './store/store.js'
+import 'iview/dist/styles/iview.css'
 import Highlight from './plugins/highlight'
 import 'highlight.js/styles/atom-one-dark-reasonable.css'
 
-
 Vue.config.productionTip = false
-Vue.use(iView);
+Vue.use(iView)
 // Vue.use(axios);
 Vue.prototype.axios = axios
 
@@ -21,6 +21,7 @@ Vue.use(Highlight)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
