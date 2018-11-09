@@ -9,8 +9,8 @@
           </div>
           <h1>{{blogData.title}}</h1>
           <div class="header-time">
-            <span>卓鸿鑫</span>
-            <span>{{blogData.time}}</span>
+            <span><i class="iconfont blog-peopel"></i>卓鸿鑫</span>
+            <span><i class="iconfont blog-time"></i>{{blogData.time}}</span>
           </div>
         </div>
     </div>
@@ -87,8 +87,12 @@ export default {
         margin-right: 8px;
         color: #fff;
         background-color: rgba(255,255,255,.26);
+        transition:  all .3s;
         box-shadow: none;
         margin-bottom: 8px;
+        &:hover{
+          background:rgba(255,255,255,.5) ;
+        }
       }
     }
     h1{
@@ -102,8 +106,11 @@ export default {
         display: inline-block;
         font-size: 16px;
         color: #fff;
-        margin-right: 4px;
+        margin-right: 10px;
         opacity: .8;
+        i{
+          margin-right: 4px;
+        }
       }
     }
   }
