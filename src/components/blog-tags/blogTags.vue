@@ -11,7 +11,8 @@
             </li>
             <li>
               <h3 class="tag-name" v-if="tagsTitle">{{tagsTitle}}</h3>
-             <router-link class="tag-post" v-for="blog in blogsList" :to="{name:'details',params: {id:blog._id}}">{{blog.title}}</router-link>
+             <router-link v-if="blogsList" class="tag-post" v-for="blog in blogsList" :to="{name:'details',params: {id:blog._id}}">{{blog.title}}</router-link>
+              <a v-if="blogsList.length < 1" class="tag-post" href="javascript:;">没有找到符合的文章</a>
             </li>
           </ul>
       </main>
@@ -25,22 +26,15 @@ export default {
   components: {blogHeader},
   data () {
     return {
-      tagsList: [],
+      tagsList: this.$store.state.tags,
       blogsList: [],
       tagsTitle: ''
     }
   },
   created: function () {
-    this.getBlogTags()
     this.getBlogList()
   },
   methods: {
-    getBlogTags () {
-      this.axios.get('/api/get_blogs_tags').then(data => {
-        console.log(data)
-        this.tagsList = data.data.data
-      })
-    },
     getBlogList () {
       this.axios.get('/api/get_blogs').then(data => {
         console.log(data.data)
