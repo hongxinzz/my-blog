@@ -9,12 +9,14 @@
                 <div class="bio">
                   <p>前端开发者，热爱技术&热爱生活，简单乐观爱创造</p>
                 </div>
+                <ul class="sns-links">
+                  <li>
+                    <a href="https://github.com/hongxinzz"> <i class="iconfont blog-GitHub"></i></a>
+                  </li>
+                </ul>
               </section>
             <section class="tags-card">
-              <a href="" class="tag">JavaScript</a>
-              <a href="" class="tag">React</a>
-              <a href="" class="tag">Vue</a>
-              <a href="" class="tag">Node</a>
+              <router-link v-if="tags" to="/tags" class="tag" v-for="tags in tagList">{{tags}}</router-link>
             </section>
           </div>
     </div>
@@ -22,7 +24,27 @@
 
 <script>
 export default {
-  name: 'blogSider'
+  name: 'blogSider',
+  data () {
+    return {
+    }
+  },
+  computed: {
+    tagList () {
+      return this.$store.state.tags
+    }
+  },
+  created: function () {
+    this.getBlogTags()
+  },
+  methods: {
+    getBlogTags () {
+      this.axios.get('/api/get_blogs_tags').then(data => {
+        this.$store.commit('getTagsFrist', data.data.data)
+        console.log(this.$store.state.tags, '>>>>>>>>>storetags')
+      })
+    }
+  }
 }
 </script>
 
@@ -69,6 +91,30 @@ export default {
           color: #656565;
         }
       }
+      .sns-links{
+        margin-top: 14px;
+        text-align: center;
+        li{
+          position: relative;
+          display: inline-block;
+          width: 26px;
+          height: 26px;
+          a{
+            display: inline-block;
+            text-decoration: none;
+            cursor: pointer;
+            transition: .2s;
+            i{
+              color: #b8bdc3;
+            }
+            &:hover{
+              i{
+                color: #4e4e4e;
+              }
+            }
+          }
+        }
+      }
     }
     .tags-card{
       padding: 30px 0;
@@ -86,10 +132,14 @@ export default {
         border-radius: 2px;
         background-color: #fafafa;
         cursor: pointer;
-        margin-right: 2px;
+        margin-right: 8px;
         margin-bottom: 8px;
+        /*#83888f*/
         &:last-child{
-          margin-bottom: 0;
+          margin-right: 0;
+        }
+        &:hover{
+          color:#83888f;
         }
       }
     }
