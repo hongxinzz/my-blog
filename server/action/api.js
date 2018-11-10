@@ -249,6 +249,29 @@ const httpApi = function (req, res) {
       }
     })
   }
+  // 分页操作
+  if (method === 'GET' && pathname === '/api/get_blogs_page') {
+    let blogObj = url.parse(req.url, true).query
+    console.log(blogObj)
+    let blogTags = blogObj.tags
+    console.log(blogTags)
+    postArticle.find({tags: blogTags}, function (err, comment) {
+      console.log(comment)
+      if (comment) {
+        returnJSON(res, {
+          code: 1,
+          msg: '获取对应文章成功',
+          data: comment
+        })
+      } else {
+        console.log(err)
+        returnJSON(res, {
+          code: -1,
+          msg: '获取对应文章失败'
+        })
+      }
+    })
+  }
 }
 function returnJSON (res, json) {
   // 设置状态码为200
