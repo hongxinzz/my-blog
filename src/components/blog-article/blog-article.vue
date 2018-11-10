@@ -19,6 +19,11 @@
         </time>
       </footer>
     </article>
+    <div class="article-page">
+        <button @click="upPage()">&lt;</button>
+        <button  :class="pageNum== index?'active':''" v-for="(num,index) in pageCount">{{num}}</button>
+        <button>&gt;</button>
+    </div>
   </div>
 
 </template>
@@ -28,7 +33,10 @@ export default {
   name: 'blog-article',
   data () {
     return {
-      blogList: []
+      blogList: [], // 博客总数量
+      pageCount: 0, // 翻页总数
+      pageLimit: 5, // 每页数量
+      pageNum: 0 // 当前页码
     }
   },
   created: function () {
@@ -40,11 +48,23 @@ export default {
         console.log(data.data)
         console.log(data.data.data[0].time)
         this.blogList = data.data.data
+        this.pageCount = Math.ceil(this.blogList.length / this.pageLimit)
       })
     },
     getTags (list) {
       let newList = list.split(' ')
       return newList
+    },
+    getBlogPage () {
+      this.axios.get('/api/get_blogs_page', {
+        params: {
+          id: this.blog_id
+        }
+      }).then(data => {
+        this.blogData = data.data.data[0]
+      }).then(err => {
+        console.log(err)
+      })
     }
   }
 }
@@ -155,6 +175,30 @@ export default {
             transform: scale(1.1);
           }
         }
+      }
+    }
+    .article-page {
+      height: 34px;
+      line-height: 34px;
+      text-align: center;
+      button{
+        display: inline-block;
+        padding: 0 12px;
+        color:#c0c4cc ;
+        font-size: 14px;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        margin-right: 6px;
+        background-color: #fafafa;
+        /*hover f4f4f5 */
+        &:hover{
+          background-color: #f4f4f5;
+        }
+      }
+      button.active{
+        background-color:#409eff;
+        color:#fff;
       }
     }
   }
