@@ -16,7 +16,7 @@
                 </ul>
               </section>
             <section class="tags-card">
-              <router-link v-if="tags" to="/tags" class="tag" v-for="tags in tagList">{{tags}}</router-link>
+              <router-link v-if="tags"  :to="{name:'tags',params: {type:tags}}" class="tag" v-for="tags in tagList">{{tags}}</router-link>
             </section>
           </div>
     </div>

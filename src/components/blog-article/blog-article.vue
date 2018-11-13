@@ -12,17 +12,17 @@
       </section>
       <footer class="post-meta">
         <div class="post-tags">
-          <router-link to="/tags" v-for="tags in getTags(blog.tags)">{{tags}}</router-link>
+          <router-link :to="{name:'tags',params: {type:tags}}" v-for="tags in getTags(blog.tags)">{{tags}}</router-link>
         </div>
         <time class="post-date" >
          <i class="iconfont blog-time"></i>{{blog.time}}
         </time>
       </footer>
     </article>
-    <div class="article-page">
-        <button @click="upPage()">&lt;</button>
-        <button  :class="pageNum== index?'active':''" v-for="(num,index) in pageCount">{{num}}</button>
-        <button>&gt;</button>
+    <div class="article-page" v-if="pageCount >= 2">
+        <button @click="getBlogList(pageNum-1)">&lt;</button>
+        <button  :class="pageNum-1== index?'active':''" v-for="(num,index) in pageCount" @click="getBlogList(index+1)">{{num}}</button>
+        <button @click="getBlogList(pageNum+1)">&gt;</button>
     </div>
   </div>
 
@@ -36,19 +36,31 @@ export default {
       blogList: [], // 博客总数量
       pageCount: 0, // 翻页总数
       pageLimit: 5, // 每页数量
-      pageNum: 0 // 当前页码
+      pageNum: 1 // 当前页码
     }
   },
   created: function () {
-    this.getBlogList()
+    this.getBlogList(this.pageNum)
   },
   methods: {
-    getBlogList () {
-      this.axios.get('/api/get_blogs').then(data => {
-        console.log(data.data)
-        console.log(data.data.data[0].time)
-        this.blogList = data.data.data
-        this.pageCount = Math.ceil(this.blogList.length / this.pageLimit)
+    getBlogList (page) {
+      if (page < 1) {
+        return
+      }
+      if (this.pageCount) {
+        if (page > this.pageCount) {
+          return
+        }
+      }
+      this.pageNum = page
+      this.axios.get('/api/get_blogs_page', {
+        params: {
+          page: page
+        }
+      }).then(data => {
+        console.log(data.data.data, data.data.data.count)
+        this.blogList = data.data.data.data
+        this.pageCount = Math.ceil(data.data.data.count / this.pageLimit)
       })
     },
     getTags (list) {
@@ -74,6 +86,7 @@ export default {
   .article-list {
     float: left;
     width: 695px;
+    padding-bottom: 30px;
     .article-item {
       width: 100%;
       margin-bottom: 16px;
@@ -191,6 +204,7 @@ export default {
         border-radius: 4px;
         margin-right: 6px;
         background-color: #fafafa;
+        cursor: pointer;
         /*hover f4f4f5 */
         &:hover{
           background-color: #f4f4f5;

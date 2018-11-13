@@ -4,7 +4,7 @@
     <div class="details-banner" v-if="blogData">
         <div class="details-header">
           <div class="header-tags">
-            <router-link v-for="tags in getTags(blogData.tags)"  to="/tags">{{tags}}</router-link>
+            <router-link v-for="tags in getTags(blogData.tags)"  :to="{name:'tags',params: {type:tags}}">{{tags}}</router-link>
             <!--<a href="">html</a>-->
           </div>
           <h1>{{blogData.title}}</h1>
