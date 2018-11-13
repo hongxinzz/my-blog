@@ -254,28 +254,31 @@ const httpApi = function (req, res) {
     let blogObj = url.parse(req.url, true).query
     console.log(blogObj)
     let page = blogObj.page
-    let start = (page-1)*5
-    console.log(page,start)
-    let count = postArticle.find({});
-    postArticle.find({}).skip(start).limit(5).exec(function(err,datas){
-          console.log(datas)
-      if (datas) {
-        datas.push({count:count})
-            returnJSON(res, {
-              code: 1,
-              msg: '获取对应文章成功',
-              data: datas,
+    let start = (page - 1) * 5
+    let count
+    console.log(page, start)
+    postArticle.count({}, function (err, comment) {
+      count = comment
+    })
+    postArticle.find({}).skip(start).limit(5).exec(function (err, datas) {
+      let commont = {data: datas, count: count}
+      console.log(commont)
+      if (commont) {
+        console.log(commont)
+        returnJSON(res, {
+          code: 1,
+          msg: '获取对应文章成功',
+          data: commont
 
-            })
-          } else {
-            console.log(err)
-            returnJSON(res, {
-              code: -1,
-              msg: '获取文章列表失败'
-            })
-          }
-    });
-
+        })
+      } else {
+        console.log(err)
+        returnJSON(res, {
+          code: -1,
+          msg: '获取文章列表失败'
+        })
+      }
+    })
   }
 }
 function returnJSON (res, json) {
