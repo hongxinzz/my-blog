@@ -32,21 +32,14 @@ export default {
     }
   },
   created: function () {
-    this.getBlogList()
+    this.tagsTitle = this.$route.params.type
+    this.blogByTags(this.tagsTitle)
   },
   methods: {
-    getBlogList () {
-      this.axios.get('/api/get_blogs').then(data => {
-        console.log(data.data)
-        console.log(data.data.data[0].time)
-        this.blogsList = data.data.data
-      })
-    },
-    blogByTags (index) {
-      this.tagsTitle = this.tagsList[index]
+    blogByTags (tags) {
       this.axios.get('/api/get_blogs_by_tags', {
         params: {
-          tags: this.tagsTitle
+          tags: tags
         }
       }).then(data => {
         this.blogsList = data.data.data
