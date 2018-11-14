@@ -13,7 +13,7 @@
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js",
-    "md2html": "node server/action/markHtml"
+    "md2html": "node server/action/markHtml.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
