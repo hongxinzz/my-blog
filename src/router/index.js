@@ -25,8 +25,8 @@ export default new Router({
       component: bloogDetails
     },
     {
-      path: '/tags',
-      name: 'blog-tags',
+      path: '/tags/:type',
+      name: 'tags',
       component: blogTags
     }
   ]
