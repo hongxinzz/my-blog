@@ -9,16 +9,19 @@
       </div>
       <!--中间主体-->
       <blogContent />
+      <!--底部-->
+      <blogFooter />
     </div>
 </template>
 
 <script>
-  import blogHeader from '../blog-header/blogHeader'
-  import blogContent from '..//blog-content/blog-content'
-  export default {
-    name: 'blog-index',
-    components: {blogHeader,blogContent}
-  }
+import blogHeader from '../blog-header/blogHeader'
+import blogContent from '..//blog-content/blog-content'
+import blogFooter from '../blog-footer/blog-footer'
+export default {
+  name: 'blog-index',
+  components: {blogHeader, blogContent, blogFooter}
+}
 </script>
 
 <style lang="scss">
@@ -53,4 +56,3 @@
     }
   }
 </style>
-
