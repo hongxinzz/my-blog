@@ -16,14 +16,16 @@
             </li>
           </ul>
       </main>
+      <blogFooter />
     </div>
 </template>
 
 <script>
 import blogHeader from '../blog-header/blogHeader'
+import blogFooter from '../blog-footer/blog-footer'
 export default {
   name: 'blogTags',
-  components: {blogHeader},
+  components: {blogHeader,blogFooter},
   data () {
     return {
       tagsList: this.$store.state.tags,
