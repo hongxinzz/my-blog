@@ -85,7 +85,7 @@ export default {
     .gotop{
       position: fixed;
       right: 30px;
-      bottom: 30px;
+      bottom: 130px;
       width: 56px;
       height: 24px;
       background: #222;
