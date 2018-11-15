@@ -23,5 +23,7 @@ export default {
   .blog-content{
     width: 1000px;
     margin: 40px auto 60px;
+    overflow: hidden;
+    clear: both;
   }
 </style>
