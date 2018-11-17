@@ -7,7 +7,7 @@
       <main class="tags-content">
           <ul class="tags-list">
             <li>
-              <span  v-for="(tags,index) in tagsList" v-if="tags" @click="blogByTags(index)">{{tags}}</span>
+              <span  v-for="tags in tagsList" v-if="tags" @click="blogByTags(tags)">{{tags}}</span>
             </li>
             <li>
               <h3 class="tag-name" v-if="tagsTitle">{{tagsTitle}}</h3>
