@@ -5,11 +5,11 @@
     <nav class="r-nav">
       <ul>
         <li><router-link to="/">HOME</router-link></li>
-        <li><router-link to="/tags">TAGS</router-link></li>
+        <li><router-link :to="{name:'tags',params: {type:'html'}}">TAGS</router-link></li>
       </ul>
     </nav>
     <div class="claerfix"></div>
-    <div class="gotop" v-if="searchBarFixed" @click="goToTop()">{{goTopNum}}%</div>
+    <div class="gotop" v-show="searchBarFixed" @click="goToTop()">{{goTopNum}}%</div>
   </div>
 </template>
 

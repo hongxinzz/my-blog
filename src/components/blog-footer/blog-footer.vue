@@ -2,7 +2,7 @@
     <div class="footer">
       <div class="footer-content">
         <div class="footer-link">
-          <li><router-link to="/index">首页</router-link></li>
+          <li><router-link to="/">首页</router-link></li>
           <li><router-link :to="{name:'tags',params: {type:'html'}}">标签页</router-link></li>
         </div>
         <p>Copyright © 2018 freddyhx All Rights Reserved | 闽ICP备18026258号-1</p>
