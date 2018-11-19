@@ -23,6 +23,7 @@ PostArticle.remove({}, function (err, comment) {
 
 function getNewArticle () {
   filelist.forEach(fileName => {
+    if(fileName.substring(fileName.indexOf('.'),fileName.length) != '.md') return
     let fileContent = new String(fs.readFileSync(path.join(dir, fileName)))
     let article = fileContent.replace(/[\r\n]/g, '')
     let title = article.substring(article.search(/##title/), article.search(/-title/)).replace(/##title:/, '')
