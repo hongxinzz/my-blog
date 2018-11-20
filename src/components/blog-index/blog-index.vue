@@ -1,7 +1,5 @@
 <template>
     <div class="blog-wrap">
-      <!--header -->
-      <blogHeader />
       <!--大图部分-->
       <div class="blog-banner">
         <h2>卓鸿鑫,前端爱好者</h2>
@@ -15,12 +13,11 @@
 </template>
 
 <script>
-import blogHeader from '../blog-header/blogHeader'
 import blogContent from '..//blog-content/blog-content'
 import blogFooter from '../blog-footer/blog-footer'
 export default {
   name: 'blog-index',
-  components: {blogHeader, blogContent, blogFooter}
+  components: {blogContent, blogFooter}
 }
 </script>
 
