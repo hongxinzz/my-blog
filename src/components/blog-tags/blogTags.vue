@@ -1,6 +1,5 @@
 <template>
     <div class="tags-wrap">
-      <blogHeader />
       <div class="tags">
         <h1>TAGS</h1>
       </div>
@@ -21,11 +20,10 @@
 </template>
 
 <script>
-import blogHeader from '../blog-header/blogHeader'
 import blogFooter from '../blog-footer/blog-footer'
 export default {
   name: 'blogTags',
-  components: {blogHeader,blogFooter},
+  components: {blogFooter},
   data () {
     return {
       tagsList: this.$store.state.tags,
