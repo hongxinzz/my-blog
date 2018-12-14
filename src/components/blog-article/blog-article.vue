@@ -84,8 +84,7 @@ export default {
 
 <style lang="scss">
   .article-list {
-    float: left;
-    width: 695px;
+    padding-top: 10px;
     padding-bottom: 30px;
     .article-item {
       width: 100%;
