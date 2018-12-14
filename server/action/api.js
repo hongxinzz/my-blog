@@ -81,106 +81,12 @@ const httpApi = function (req, res) {
       })
     })
   }
-  // 提交文章
-  // if (method === 'POST' && pathname === '/api/post_article') {
-  //   let body = ''
-  //   // 获取body
-  //   req.on('data', function (chunk) {
-  //     body += chunk
-  //   })
-  //   req.on('end', function () {
-  //     let data = JSON.parse(body)
-  //     console.log(data)
-  //     // 实例化Person
-  //     let person = new postArticle({
-  //       id: data.id,
-  //       title: data.title,
-  //       cover: data.cover,
-  //       content: data.content,
-  //       tags: data.tags,
-  //       time: data.time
-  //     })
-  //     person.save(function (err, comment) {// eslint-disable-line
-  //       if (comment) {
-  //         returnJSON(res, {
-  //           code: 1,
-  //           msg: '增加文章成功' + comment._id
-  //         })
-  //       } else {
-  //         returnJSON(res, {
-  //           code: -1,
-  //           msg: '增加文章失败'
-  //         })
-  //       }
-  //     })
-  //   })
-  // }
-  //  修改文章
-  //   if (method === 'POST' && pathname === '/api/update_article') {
-  //     let body = ''
-  //     // 获取body
-  //     req.on('data', function (chunk) {
-  //       body += chunk
-  //     })
-  //     req.on('end', function () {
-  //       let data = JSON.parse(body)
-  //       console.log(data)
-  //       // 修改的数据
-  //       let update = {
-  //         $set: {
-  //           title: data.title,
-  //           cover: data.cover,
-  //           content: data.content,
-  //           ags: data.tags,
-  //           time: data.time
-  //         }
-  //       }
-  //       let option = {multi: true}
-  //       updataArtcile.updateMany({_id: data.id}, update, option, function (err, comment) {// eslint-disable-line
-  //         console.log(comment)
-  //         if (comment.ok) {
-  //           returnJSON(res, {
-  //             code: 1,
-  //             msg: '修改文章成功'
-  //           })
-  //         } else {
-  //           console.log(err)
-  //           returnJSON(res, {
-  //             code: -1,
-  //             msg: '修改文章失败'
-  //           })
-  //         }
-  //       })
-  //     })
-  //   }
-  // }
-
-  // 读取blog
-  // if (method === 'GET' && pathname === '/api/get_blogs') {
-  //   console.log(1)
-  //   postArticle.find({}, function (err, comment) {
-  //     console.log(comment)
-  //     if (comment) {
-  //       returnJSON(res, {
-  //         code: 1,
-  //         msg: '获取文章成功',
-  //         data: comment
-  //       })
-  //     } else {
-  //       console.log(err)
-  //       returnJSON(res, {
-  //         code: -1,
-  //         msg: '获取文章失败'
-  //       })
-  //     }
-  //   })
-  // }
   // 读取blog 单独的 为blog详情页面
   if (method === 'GET' && pathname === '/api/get_blogs_one') {
     let blogObj = url.parse(req.url, true).query
     let blogId = blogObj.id
     postArticle.find({_id: blogId}, function (err, comment) {
-      console.log(comment)
+      // console.log(comment)
       if (comment) {
         returnJSON(res, {
           code: 1,
@@ -231,9 +137,9 @@ const httpApi = function (req, res) {
   if (method === 'GET' && pathname === '/api/get_blogs_by_tags') {
     let blogObj = url.parse(req.url, true).query
     let blogTags = blogObj.tags
-    console.log(blogTags)
+    // console.log(blogTags)
     postArticle.find({tags: blogTags}, function (err, comment) {
-      console.log(comment)
+      // console.log(comment)
       if (comment) {
         returnJSON(res, {
           code: 1,
@@ -241,7 +147,7 @@ const httpApi = function (req, res) {
           data: comment
         })
       } else {
-        console.log(err)
+        // console.log(err)
         returnJSON(res, {
           code: -1,
           msg: '获取对应文章失败'
@@ -252,7 +158,7 @@ const httpApi = function (req, res) {
   // 分页操作
   if (method === 'GET' && pathname === '/api/get_blogs_page') {
     let blogObj = url.parse(req.url, true).query
-    console.log(blogObj)
+    // console.log(blogObj)
     let page = blogObj.page
     let start = (page - 1) * 5
     let count
@@ -260,11 +166,11 @@ const httpApi = function (req, res) {
     postArticle.count({}, function (err, comment) {
       count = comment
     })
-    postArticle.find({}).skip(start).limit(5).exec(function (err, datas) {
+    postArticle.find({}).sort({'_id':-1}).skip(start).limit(5).exec(function (err, datas) {
       let commont = {data: datas, count: count}
-      console.log(commont)
+      // console.log(commont)
       if (commont) {
-        console.log(commont)
+        // console.log(commont)
         returnJSON(res, {
           code: 1,
           msg: '获取对应文章成功',
@@ -272,7 +178,31 @@ const httpApi = function (req, res) {
 
         })
       } else {
-        console.log(err)
+        // console.log(err)
+        returnJSON(res, {
+          code: -1,
+          msg: '获取文章列表失败'
+        })
+      }
+    })
+  }
+  /**
+   * 查找最新的三个
+   */
+  if(method === 'GET' && pathname === '/api/get_blogs_new'){
+    let blogObj = url.parse(req.url, true).query
+    let pageLimit = blogObj.pageLimit
+    console.log(pageLimit)
+    postArticle.find({}).sort({'_id':-1}).limit(3).exec(function (err, datas) {
+      console.log(datas)
+      if (datas) {
+        returnJSON(res, {
+          code: 1,
+          msg: '获取对应文章成功',
+          data: datas
+
+        })
+      } else {
         returnJSON(res, {
           code: -1,
           msg: '获取文章列表失败'
