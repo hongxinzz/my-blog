@@ -126,11 +126,13 @@ export default {
     box-sizing: border-box;
     padding: 0 0 32px;
     margin: 0 auto;
+    * {
+      font-size: 14px;
+    }
     p{
-      margin-bottom: 16px;
-      font-size: 17px;
-      line-height: 1.8;
-      text-align: justify;
+      font-size: 14px  ;
+      line-height: 1.8  ;
+      text-align: justify  ;
     }
     .hljs{
       padding: 1em;
@@ -145,21 +147,45 @@ export default {
       font-size: 14px;
       line-height: 1.5;
     }
-    .bounce-enter-active {
-      animation: bounce-in .5s;
+    h2{
+      font-size: 24px;
+      line-height: 32px;
     }
-    .bounce-leave-active {
-      animation: bounce-in .5s reverse;
+    h3{
+      font-size: 20px;
+      line-height: 28px;
     }
-    @keyframes bounce-in {
-      0% {
-        transform: scale(0);
+    ul{
+      margin: 0 0 24px  ;
+      padding: 0  ;
+      li{
+        list-style-type: disc  ;
+        margin: 8px 0 0 32px  ;
+        font-size: 16px;
       }
-      50% {
-        transform: scale(1.5);
+    }
+    code{
+      color: #c7254e  ;
+      background-color: #f9f2f4  ;
+      border-radius: 2px  ;
+      padding: 2px 4px;
+    }
+    blockquote{
+      display: block  ;
+      padding: 16px  ;
+      margin: 0 0 24px  ;
+      border-left: 8px solid #dddfe4  ;
+      background: #eef0f4  ;
+      overflow: auto  ;
+      p{
+        font-size: 14px;
+        line-height: 22px;
+        color: #999;
+        font-weight: 400;
+        margin-bottom: 0;
       }
-      100% {
-        transform: scale(1);
+      &::before,&::after{
+        content: '';
       }
     }
   }
