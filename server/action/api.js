@@ -1,10 +1,6 @@
 const url = require('url')
 const UserReg = require('../module/userReg')
-const UserLogin = require('../module/login')
-const updataArtcile = require('../module/updataArticle')
 const postArticle = require('../module/postArticle')
-const fs = require('fs')
-const marked = require('marked')
 
 const httpApi = function (req, res) {
   let method = req.method
@@ -104,8 +100,8 @@ const httpApi = function (req, res) {
   }
   // 读取blog 的标签
   if (method === 'GET' && pathname === '/api/get_blogs_tags') {
-    let blogObj = url.parse(req.url, true).query
-    let blogTags = blogObj.tags
+    // let blogObj = url.parse(req.url, true).query
+    // let blogTags = blogObj.tags
     postArticle.find({tags: {$type: 'string'}}, function (err, comment) {
       let tagsStr = ' '
       let tagsArr = []
@@ -137,9 +133,9 @@ const httpApi = function (req, res) {
   if (method === 'GET' && pathname === '/api/get_blogs_by_tags') {
     let blogObj = url.parse(req.url, true).query
     let blogTags = blogObj.tags
-    // console.log(blogTags)
+    console.log(blogTags)
     postArticle.find({tags: blogTags}, function (err, comment) {
-      // console.log(comment)
+      console.log(comment)
       if (comment) {
         returnJSON(res, {
           code: 1,
@@ -166,7 +162,7 @@ const httpApi = function (req, res) {
     postArticle.count({}, function (err, comment) {
       count = comment
     })
-    postArticle.find({}).sort({'_id':-1}).skip(start).limit(5).exec(function (err, datas) {
+    postArticle.find({}).sort({time:-1}).skip(start).limit(5).exec(function (err, datas) {
       let commont = {data: datas, count: count}
       // console.log(commont)
       if (commont) {
@@ -193,7 +189,7 @@ const httpApi = function (req, res) {
     let blogObj = url.parse(req.url, true).query
     let pageLimit = blogObj.pageLimit
     console.log(pageLimit)
-    postArticle.find({}).sort({'_id':-1}).limit(3).exec(function (err, datas) {
+    postArticle.find({}).sort({time:-1}).limit(3).exec(function (err, datas) {
       console.log(datas)
       if (datas) {
         returnJSON(res, {
