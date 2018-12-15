@@ -25,7 +25,7 @@ export default {
 
 <style scoped>
   .blog-content{
-    width: 695px;
+    width: 750px;
     margin: 40px auto 60px;
     overflow: hidden;
     clear: both;
