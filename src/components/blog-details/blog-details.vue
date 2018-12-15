@@ -4,7 +4,7 @@
     <div class="details-banner" v-if="blogData">
         <div class="details-header">
           <div class="header-tags">
-            <router-link v-for="tags in getTags(blogData.tags)"  :to="{name:'tags',params: {type:tags}}">{{tags}}</router-link>
+            <router-link v-for="(tags,index) in getTags(blogData.tags)" :key="index"  :to="{name:'tags',params: {type:tags}}">{{tags}}</router-link>
             <!--<a href="">html</a>-->
           </div>
           <h1>{{blogData.title}}</h1>
@@ -59,6 +59,9 @@ export default {
 </script>
 
 <style  lang="scss">
+  .details-wrap{
+    animation: .4s fadeInUp;
+  }
 .details-banner{
   position: relative;
   height: 460px;
@@ -165,10 +168,14 @@ export default {
       }
     }
     code{
-      color: #c7254e  ;
-      background-color: #f9f2f4  ;
       border-radius: 2px  ;
       padding: 2px 4px;
+    }
+    p{
+      code{
+        color: #c7254e  ;
+        background-color: #f9f2f4  ;
+      }
     }
     blockquote{
       display: block  ;
@@ -190,4 +197,14 @@ export default {
     }
   }
 }
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translate3d(0,100%,0);
+    }
+    100% {
+       opacity: 1;
+       transform: none;
+     }
+  }
 </style>
