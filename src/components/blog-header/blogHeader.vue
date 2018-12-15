@@ -4,8 +4,8 @@
     <div class="logo"></div>
     <nav class="r-nav">
       <ul>
-        <li><router-link to="/">HOME</router-link></li>
-        <li><router-link :to="{name:'tags',params: {type:'html'}}">TAGS</router-link></li>
+        <li><router-link to="/"> <i class="iconfont blog-shouye"></i>HOME</router-link></li>
+        <li><router-link :to="{name:'tags',params: {type:'html'}}"> <i class="iconfont blog-biaoqian"></i>TAGS</router-link></li>
       </ul>
     </nav>
     <div class="claerfix"></div>
@@ -20,7 +20,8 @@ export default {
     return{
       searchBarFixed:false,
       nowScroll:0,
-      goTopNum:''
+      goTopNum:'',
+      isScrollNum:0
     }
   },
   created: function () {
@@ -30,17 +31,25 @@ export default {
     handleScroll () {
       let dHeight = document.documentElement.scrollHeight
       let clientH = window.innerHeight || document.documentElement.clientHeight
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      if (scrollTop > 0) {
+      this.isScrollNum = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      if (this.isScrollNum > 0) {
         let validH = dHeight - clientH
-        this.goTopNum =  Math.floor(scrollTop / validH * 100)
+        this.goTopNum =  Math.floor(this.isScrollNum / validH * 100)
         this.searchBarFixed = true
       } else {
         this.searchBarFixed = false
       }
     },
     goToTop(){
-      document.documentElement.scrollTop = 0
+      let timer = setInterval(()=>{
+        this.isScrollNum -= this.isScrollNum / 10
+        document.documentElement.scrollTop = this.isScrollNum;
+        if(this.isScrollNum <=15){
+          document.documentElement.scrollTop = 0
+          clearInterval(timer);
+        }
+      },10)
+      // document.documentElement.scrollTop = 0
     }
   }
 }
@@ -73,6 +82,9 @@ export default {
           color: #fff;
           padding: 0 12px;
           opacity: .7;
+          i{
+            margin-right: 5px;
+          }
           &:hover{
             opacity: 1;
           }
