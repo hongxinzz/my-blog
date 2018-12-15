@@ -1,6 +1,7 @@
 <template lang="ejs">
   <div class="article-list" v-if="blogList">
-    <article class="article-item" v-for=" blog in blogList">
+  <h1><i class="iconfont blog-remen"></i>Hot</h1>
+    <article class="article-item" v-for=" (blog,index) in blogList" :key="index">
       <div class="post-cover">
         <a> <router-link  :to="{name:'details',params: {id:blog._id}}"></router-link></a>
         <img :src="blog.cover" alt="">
@@ -11,8 +12,9 @@
         <h3>{{blog.introduction}}</h3>
       </section>
       <footer class="post-meta">
+      <div class="author"><i class="iconfont blog-zuozhe"></i>FreddyZhuo</div>
         <div class="post-tags">
-          <router-link :to="{name:'tags',params: {type:tags}}" v-for="tags in getTags(blog.tags)">{{tags}}</router-link>
+          <router-link :to="{name:'tags',params: {type:tags}}" v-for="(tags,index) in getTags(blog.tags)" :key="index"><i class="iconfont blog-biaoqian1"></i>{{tags}}</router-link>
         </div>
         <time class="post-date" >
          <i class="iconfont blog-time"></i>{{blog.time}}
@@ -21,7 +23,7 @@
     </article>
     <div class="article-page" v-if="pageCount >= 2">
         <button @click="getBlogList(pageNum-1)">&lt;</button>
-        <button  :class="pageNum-1== index?'active':''" v-for="(num,index) in pageCount" @click="getBlogList(index+1)">{{num}}</button>
+        <button  :class="pageNum-1== index?'active':''" v-for="(num,index) in pageCount" :key="index" @click="getBlogList(index+1)">{{num}}</button>
         <button @click="getBlogList(pageNum+1)">&gt;</button>
     </div>
   </div>
@@ -86,9 +88,21 @@ export default {
   .article-list {
     padding-top: 10px;
     padding-bottom: 30px;
+    h1 {
+      padding: 6px;
+      font-size: 18px;
+      margin-bottom: 30px;
+      color: #666;
+      border-bottom: 1px dashed #ececec;
+      i {
+        font-size: 18px;
+        margin-right: 15px;
+        color: #ff4940;
+      }
+    }
     .article-item {
       width: 100%;
-      margin-bottom: 16px;
+      margin-bottom: 30px;
       padding: 30px 20px;
       background-color: #fff;
       border: 1px solid #e7eaf1;
@@ -99,8 +113,8 @@ export default {
       .post-cover {
         position: relative;
         width: 100%;
-        max-height: 300px;
-        margin-bottom: 14px;
+        height: 284px;
+        margin-bottom: 22px;
         overflow: hidden;
         a {
           position: absolute;
@@ -126,23 +140,33 @@ export default {
           height: 100%;
         }
         h2 {
-          color: #4e4e4e;
-          font-size: 24px;
-          line-height: 32px;
+          color: #48494d;
+          font-size: 20px;
+          font-weight: 600;
+          line-height: 1.4;
         }
         h3 {
-          margin-top: 3px;
-          font-size: 18px;
-          font-weight: 400;
-          color: #b8bdc3;
-          line-height: 26px;
+          font-size: 14px;
+          line-height: 1.6;
+          margin-bottom: 20px;
+          color: #566573;
+          /*font-family: Arial;*/
         }
       }
       .post-meta {
         height: 22px;
         margin-top: 16px;
+        .author{
+          line-height: 22px;
+          display: inline-block;
+          color: #a6abb2;
+          i{
+            font-size: 17px;
+            margin-right: 5px;
+          }
+        }
         .post-tags {
-          float: left;
+          /*float: left;*/
           display: inline-block;
           a {
             display: inline-block;
@@ -154,12 +178,13 @@ export default {
             color: #a6abb2;
             line-height: 22px;
             box-sizing: border-box;
-            box-shadow: 0 0 0.6px #d5dae1;
-            border-radius: 2px;
-            background-color: #fafafa;
             cursor: pointer;
             &:last-child {
               margin-right: 0;
+            }
+            i{
+              font-size: 17px;
+              margin-right: 5px;
             }
             &:hover{
               color: #83888f;
@@ -168,14 +193,14 @@ export default {
         }
       }
       .post-date {
-        float: right;
+        /*float: right;*/
         color: #a9b0bc;
         display: inline-block;
         font-size: 14px;
         letter-spacing: .6px;
         line-height: 22px;
         i{
-          margin-right: 10px;
+          margin-right: 5px;
           margin-top: 2px;
         }
       }
