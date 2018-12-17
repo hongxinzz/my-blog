@@ -15,8 +15,37 @@
          <div class="message-board">
 
          </div>
+         <div class="message-post"  @mouseover="checkHover(true,'message')" @mouseout="checkHover(false)">
+           <h3 :class="isHoverMessage ? 'hover' : ''">发表评论</h3>
+           <form action="" class="form">
+             <div class="input">
+               <div>
+                 <label>昵称
+                   <span>*</span>
+                 </label>
+                 <input type="text" placeholder="刻上您的大名">
+               </div>
+               <div>
+                 <label>邮箱
+                   <span>*</span>
+                 </label>
+                 <input type="text" placeholder="写上您的邮箱">
+               </div>
+               <div>
+                 <label>网址</label>
+                 <input type="text" placeholder="这个随意哦！">
+               </div>
+             </div>
+            <div class="textarea">
+              <textarea type="textarea" placeholder="说点什么吧..."></textarea>
+            </div>
+             <div class="button">
+               <button>发表评论</button>
+             </div>
+           </form>
+         </div>
        </div>
-        <div class="message-right" @mouseover="checkHover(true)" @mouseout="checkHover(false)">
+        <div class="message-right" @mouseover="checkHover(true,'article')" @mouseout="checkHover(false)">
           <div class="message-card">
             <h2 :class=" isHover ? 'hover' : ''">随机文章</h2>
             <ul>
@@ -43,6 +72,7 @@
     data(){
       return{
         isHover:false,
+        isHoverMessage:false,
         page:1,
         blogList:[]
       }
@@ -51,8 +81,16 @@
       this.getBlogData()
     },
     methods:{
-      checkHover(bool){
-        this.isHover = bool;
+      checkHover(bool,type){
+        if(type === 'message'){
+          this.isHoverMessage = bool;
+          return
+        }else if(type === 'article'){
+          this.isHover = bool;
+          return
+        }
+        this.isHoverMessage = false ;
+        this.isHover = false;
       },
       getBlogData(){
         this.axios.get('/api/get_blogs_page', {
@@ -115,11 +153,112 @@
           font-weight: 600;
           padding-bottom:10px ;
           margin-bottom: 20px;
+          color: #282828;
           border-bottom: 1px solid #e7e7e7;
         }
         p{
           line-height: 1.8;
           font-size: 16px;
+        }
+      }
+      .message-post{
+        overflow: hidden;
+        clear: both;
+        width: 780px;
+        padding: 50px 38px;
+        border: 1px solid #e7eaf1;
+        border-radius: 3px;
+        margin-top: 30px;
+        box-shadow: 0 1px 3px rgba(0, 37, 55, 0.06);
+        h3{
+          font-size: 20px;
+          color: #282828;
+          font-weight: 600;
+          margin-bottom: 30px;
+          text-transform: uppercase;
+          padding-bottom: 20px;
+          position: relative;
+          &::after{
+            content: "";
+            background-color: #282828;
+            left: 1px;
+            width: 50px;
+            height: 2px;
+            bottom: -2px;
+            position: absolute;
+            transition: 0.5s;
+          }
+        }
+        .form{
+          .input{
+            display: flex;
+            div{
+              flex: 1;
+              margin-right:15px;
+              label{
+                display: inline-block;
+                max-width: 100%;
+                margin-bottom: 5px;
+                font-weight: 700;
+                color: #888;
+                font-size: 14px;
+                span{
+                  color: #ff4b33;
+                  font-weight: 700;
+                  margin-left: 3px;
+                }
+              }
+              input{
+                width: 100%;
+                margin-bottom: 20px;
+                margin-top: 5px;
+                padding: 10px 14px;
+                outline: none;
+                border: 1px solid #eaeaea;
+              }
+              &:last-child{
+                margin-right: 0;
+              }
+            }
+          }
+          .textarea{
+            textarea{
+              display: block;
+              color: #ccc;
+              width: 100%;
+              height: 100px;
+              padding: 10px 14px;
+              line-height: 1.5;
+              border-color: #efefef;
+            }
+          }
+          .button{
+            margin-top: 15px;
+            button{
+              float: right;
+              border-radius: 2px;
+              background: #19B5FE;
+              color: #fff;
+              padding: 14px 0;
+              border: 0;
+              font-size: 16px;
+              font-weight: bold;
+              width: 120px;
+              line-height: 1;
+              height: auto;
+              letter-spacing: .1em;
+              outline: none;
+              cursor: pointer;
+              &:hover{
+                background: #1c1f21;
+              }
+            }
+          }
+        }
+        .hover{
+          &::after{
+            width: 70px;
+          }
         }
       }
     }
