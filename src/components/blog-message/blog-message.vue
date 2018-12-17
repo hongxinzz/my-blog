@@ -13,7 +13,22 @@
            <p>如果您对本站有什么优化或者Bug，也可以发表您的建议哦！</p>
          </div>
          <div class="message-board">
-
+            <h3>全部评论:{{messageList.length}}条</h3>
+           <ul>
+             <li v-show="messageList.length === 0 "> <p style="font-size: 15px">还没有留言..</p></li>
+             <li v-for="item in messageList">
+               <!--item.pic!=''?item.pic:''-->
+               <!--:src="item.pic !=='' ? item.pic:'../../assets/images/avatar.png'"-->
+               <img :src="item.pic ==='' ? 'http://t.cn/EUdyFtA' :item.pic" alt="">
+               <div class="body">
+                 <p>{{item.userName}}<time></time></p>
+                 <p>{{item.content}}</p>
+                 <div class="delete">
+                   <span @click="deleteMessage(item._id)">删除</span>
+                 </div>
+               </div>
+             </li>
+           </ul>
          </div>
          <div class="message-post"  @mouseover="checkHover(true,'message')" @mouseout="checkHover(false)">
            <h3 :class="isHoverMessage ? 'hover' : ''">发表评论</h3>
@@ -23,24 +38,24 @@
                  <label>昵称
                    <span>*</span>
                  </label>
-                 <input type="text" placeholder="刻上您的大名">
+                 <input type="text" placeholder="刻上您的大名" v-model="userName" >
                </div>
                <div>
                  <label>邮箱
                    <span>*</span>
                  </label>
-                 <input type="text" placeholder="写上您的邮箱">
+                 <input type="text" placeholder="写上您的邮箱" v-model="email">
                </div>
                <div>
-                 <label>网址</label>
+                 <label>头像网址</label>
                  <input type="text" placeholder="这个随意哦！">
                </div>
              </div>
             <div class="textarea">
-              <textarea type="textarea" placeholder="说点什么吧..."></textarea>
+              <textarea type="textarea" placeholder="说点什么吧..." v-model="content"></textarea>
             </div>
              <div class="button">
-               <button>发表评论</button>
+               <button @click="postMessages()">发表评论</button>
              </div>
            </form>
          </div>
@@ -66,6 +81,7 @@
 
 <script>
   import BlogHeader from '../blog-header/blogHeader'
+  import { Message } from 'element-ui';
   export default {
     name: 'blog-message',
     components:{ BlogHeader },
@@ -74,11 +90,17 @@
         isHover:false,
         isHoverMessage:false,
         page:1,
-        blogList:[]
+        blogList:[],
+        email: '',
+        userName: '',
+        content:'',
+        pic:'',
+        messageList:[],
       }
     },
     created:function(){
-      this.getBlogData()
+      this.getBlogData();
+      this.getBlogMessage();
     },
     methods:{
       checkHover(bool,type){
@@ -116,6 +138,39 @@
         }else{
           this.blogList = datas;
         }
+      },
+      postMessages(){
+        let that = this
+        console.log( this.userName,
+          this.email,
+          this.content,)
+        if(this.userName === ""){
+          Message.error('要输入大名才能认识你哦！')
+          return false
+        }else if(this.email === ""){
+          Message.error('要输入邮箱才能跟您联系！')
+          return false
+        }else if(this.content === ""){
+          Message.error('要输入内容才知道问题哦！')
+          return false
+        }
+        this.axios.post('/api/post_message', {
+          userName: this.userName,
+          email: this.email,
+          content:this.content,
+          pic:this.pic
+        }).then(function (data) {
+          if(data.data.code === 1){
+            Message.success('您的留言发表成功！')
+            that.getBlogMessage()
+          }
+        })
+      },
+      getBlogMessage(){
+        this.axios.get('/api/get_blog_message').then(data=>{
+          console.log(data);
+          this.messageList = data.data.data;
+        })
       }
     }
   }
@@ -149,7 +204,7 @@
         border-radius: 3px;
         box-shadow: 0 1px 3px rgba(0, 37, 55, 0.06);
         h2{
-          font-size: 26px;
+          font-size: 20px;
           font-weight: 600;
           padding-bottom:10px ;
           margin-bottom: 20px;
@@ -159,6 +214,52 @@
         p{
           line-height: 1.8;
           font-size: 16px;
+        }
+      }
+      .message-board{
+        width: 780px;
+        padding: 50px 38px;
+        border: 1px solid #e7eaf1;
+        border-radius: 3px;
+        margin-top: 30px;
+        box-shadow: 0 1px 3px rgba(0, 37, 55, 0.06);
+        h3{
+          font-size: 20px;
+          font-weight: 600;
+          padding-bottom:10px ;
+          margin-bottom: 20px;
+          color: #282828;
+          border-bottom: 1px solid #e7e7e7;
+        }
+        ul{
+          li{
+            display: flex;
+            margin-bottom: 10px;
+            img{
+              width: 50px;
+              height: 50px;
+              border-radius: 3px;
+              margin-right: 15px;
+            }
+            .body{
+              flex: 1;
+              padding-bottom: 3px;
+              border-bottom: 1px solid #eee;
+              p{
+                font-size: 15px;
+                time{
+                  margin-left: 10px;
+                }
+              }
+              p:nth-child(2){
+                padding: 4px 0 ;
+              }
+              .delete{
+                float: right;
+                cursor: pointer;
+              }
+            }
+          }
         }
       }
       .message-post{
@@ -190,6 +291,9 @@
           }
         }
         .form{
+          .error{
+            color: red;
+          }
           .input{
             display: flex;
             div{
@@ -229,7 +333,11 @@
               height: 100px;
               padding: 10px 14px;
               line-height: 1.5;
+              outline: none;
               border-color: #efefef;
+              &:focus{
+                color: #000;
+              }
             }
           }
           .button{
@@ -264,6 +372,7 @@
     }
     .message-right{
       width: 360px;
+      height: 496px;
       padding: 35px 30px;
       border: 1px solid #e7eaf1;
       border-radius: 3px;
@@ -273,7 +382,6 @@
         font-size: 18px;
         color: #282828;
         font-weight: 600;
-        margin: 0;
         text-transform: uppercase;
         padding-bottom: 15px;
         margin-bottom: 25px;
