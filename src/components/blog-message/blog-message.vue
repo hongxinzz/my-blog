@@ -331,6 +331,7 @@
               color: #ccc;
               width: 100%;
               height: 100px;
+              max-height: 150px;
               padding: 10px 14px;
               line-height: 1.5;
               outline: none;
