@@ -10,12 +10,12 @@
             </li>
             <li>
               <h3 class="tag-name" v-if="tagsTitle">{{tagsTitle}}</h3>
-             <router-link v-if="blogsList" class="tag-post" v-for="blog in blogsList" :to="{name:'details',params: {id:blog._id}}">{{blog.title}}</router-link>
+             <router-link v-if="blogsList" class="tag-post" v-for="(blog,index) in blogsList" :key="index" :to="{name:'details',params: {id:blog._id}}">{{blog.title}}</router-link>
               <a v-if="blogsList.length < 1" class="tag-post" href="javascript:;">没有找到符合的文章</a>
             </li>
           </ul>
       </main>
-      <blogFooter />
+      <!--<blogFooter />-->
     </div>
 </template>
 
@@ -26,17 +26,18 @@ export default {
   components: {blogFooter},
   data () {
     return {
-      tagsList: this.$store.state.tags,
+      tagsList: [],
       blogsList: [],
-      tagsTitle: ''
+      tagsTitle: 'javaScript'
     }
   },
   created: function () {
-    this.tagsTitle = this.$route.params.type
+    this.getBlogTags()
     this.blogByTags(this.tagsTitle)
   },
   methods: {
     blogByTags (tags) {
+      this.tagsTitle = tags
       this.axios.get('/api/get_blogs_by_tags', {
         params: {
           tags: tags
@@ -46,6 +47,12 @@ export default {
         console.log(this.blogsList)
       }).then(err => {
         console.log(err)
+      })
+    },
+    getBlogTags(){
+      this.axios.get('api/get_blogs_tags').then(data=>{
+        console.log(data)
+        this.tagsList = data.data.data;
       })
     }
   }
@@ -62,6 +69,7 @@ export default {
           font-size: 36px;
           line-height: 300px;
           color: #fff;
+          animation:  .8s fadeInUp;
         }
       }
       .tags-content{
@@ -77,6 +85,7 @@ export default {
             box-sizing: border-box;
             box-shadow: 0 1px 3px rgba(0,37,55,.06);
             list-style: none;
+            animation: 2s fadeInUp;
             .tag-name{
               display: block;
               font-size: 20px;
@@ -96,6 +105,7 @@ export default {
             margin-bottom: 24px;
             cursor: default;
             list-style: none;
+            animation:  1s fadeInUp;
             span{
               display: inline-block;
               width: auto;
@@ -113,6 +123,17 @@ export default {
             }
           }
         }
+      }
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translate3d(0,100%,0);
+      }
+      100% {
+        opacity: 1;
+        transform: none;
       }
     }
 </style>
