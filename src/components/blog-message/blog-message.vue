@@ -48,7 +48,7 @@
                </div>
                <div>
                  <label>头像网址</label>
-                 <input type="text" placeholder="这个随意哦！">
+                 <input type="text" placeholder="这个随意哦！" v-model="pic">
                </div>
              </div>
             <div class="textarea">
@@ -143,7 +143,7 @@
         let that = this
         console.log( this.userName,
           this.email,
-          this.content,)
+          this.content,this.pic)
         if(this.userName === ""){
           Message.error('要输入大名才能认识你哦！')
           return false
@@ -170,6 +170,23 @@
         this.axios.get('/api/get_blog_message').then(data=>{
           console.log(data);
           this.messageList = data.data.data;
+        })
+      },
+      deleteMessage(messageId){
+        let that = this;
+        let userRoot = JSON.parse(window.localStorage.getItem('USER_LOGIN'));
+        console.log(userRoot)
+        if(userRoot !== true){
+          Message.error('当前只有管理员可以操作！')
+          return
+        }
+        this.axios.post('/api/delete_blog_message', {
+          messageId:messageId
+        }).then(function (data) {
+         if(data.data.code === 1){
+           Message.success(data.data.msg);
+           that.getBlogMessage();
+         }
         })
       }
     }
@@ -202,6 +219,7 @@
         padding: 50px 38px;
         border: 1px solid #e7eaf1;
         border-radius: 3px;
+        animation: fadeInUp .8s;
         box-shadow: 0 1px 3px rgba(0, 37, 55, 0.06);
         h2{
           font-size: 20px;
@@ -222,6 +240,7 @@
         border: 1px solid #e7eaf1;
         border-radius: 3px;
         margin-top: 30px;
+        animation: fadeInUp 1s;
         box-shadow: 0 1px 3px rgba(0, 37, 55, 0.06);
         h3{
           font-size: 20px;
@@ -270,6 +289,7 @@
         border: 1px solid #e7eaf1;
         border-radius: 3px;
         margin-top: 30px;
+        animation: fadeInUp 1.2s;
         box-shadow: 0 1px 3px rgba(0, 37, 55, 0.06);
         h3{
           font-size: 20px;
@@ -377,6 +397,7 @@
       padding: 35px 30px;
       border: 1px solid #e7eaf1;
       border-radius: 3px;
+      animation: fadeInUp 1s;
       box-shadow: 0 1px 3px rgba(0, 37, 55, 0.06);
       h2{
         position: relative;
@@ -481,6 +502,16 @@
         cursor: pointer;
       }
     }
+  }
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0,100%,0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
   }
 }
 </style>
