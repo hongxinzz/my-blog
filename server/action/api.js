@@ -1,6 +1,7 @@
 const url = require('url')
 const UserReg = require('../module/userReg')
 const postArticle = require('../module/postArticle')
+const postMessage = require('../module/message')
 
 const httpApi = function (req, res) {
   let method = req.method
@@ -154,17 +155,21 @@ const httpApi = function (req, res) {
   // 分页操作
   if (method === 'GET' && pathname === '/api/get_blogs_page') {
     let blogObj = url.parse(req.url, true).query
-    // console.log(blogObj)
     let page = blogObj.page
+    let pageLimit;
+    if(!pageLimit){
+      pageLimit = null
+    }
+    pageLimit = Number(blogObj.pageLimit);
     let start = (page - 1) * 5
     let count
-    console.log(page, start)
+    console.log(page, pageLimit)
     postArticle.count({}, function (err, comment) {
       count = comment
     })
-    postArticle.find({}).sort({time:-1}).skip(start).limit(5).exec(function (err, datas) {
+    postArticle.find({}).sort({time:-1}).skip(start).limit(pageLimit).exec(function (err, datas) {
       let commont = {data: datas, count: count}
-      // console.log(commont)
+      console.log(commont)
       if (commont) {
         // console.log(commont)
         returnJSON(res, {
@@ -190,7 +195,7 @@ const httpApi = function (req, res) {
     let pageLimit = blogObj.pageLimit
     console.log(pageLimit)
     postArticle.find({}).sort({time:-1}).limit(3).exec(function (err, datas) {
-      console.log(datas)
+      // console.log(datas)
       if (datas) {
         returnJSON(res, {
           code: 1,
@@ -204,6 +209,85 @@ const httpApi = function (req, res) {
           msg: '获取文章列表失败'
         })
       }
+    })
+  }
+  /**
+   * 留言
+   */
+  if(method === 'POST' && pathname === '/api/post_message'){
+    let body = ''
+    req.on('data', function (chunk) {
+      body += chunk
+    })
+    req.on('end', function () {
+      let data = JSON.parse(body)
+      console.log(data)
+      // 实例化Person
+      let person = new postMessage({
+        userName: data.userName,
+        email: data.password,
+        content:data.content,
+        pic:data.pic
+      })
+      person.save(function (err, comment) {
+        if (comment) {
+          returnJSON(res, {
+            code: 1,
+            msg: '发表成功！'
+          })
+        } else {
+          returnJSON(res, {
+            code: -1,
+            msg: '注册失败'
+          })
+        }
+      })
+    })
+  }
+  /**
+   * 获取留言
+   */
+  if(method === 'GET' && pathname === '/api/get_blog_message'){
+    postMessage.find({}).sort({_id:-1}).exec(function (err, datas) {
+      if (datas) {
+        returnJSON(res, {
+          code: 1,
+          msg: '获取留言成功',
+          data: datas
+        })
+      } else {
+        returnJSON(res, {
+          code: -1,
+          msg: '获取留言失败'
+        })
+      }
+    })
+  }
+  /**
+   * 删除留言
+   */
+  if(method === 'POST' && pathname === '/api/delete_blog_message'){
+    let body = ''
+    req.on('data', function (chunk) {
+      body += chunk
+    })
+    req.on('end', function () {
+      let data = JSON.parse(body)
+      console.log(data)
+      postMessage.remove({_id:data.messageId}).exec(function (err, datas) {
+        if (datas) {
+          returnJSON(res, {
+            code: 1,
+            msg: `删除${data.messageId}留言成功`,
+            data: datas
+          })
+        } else {
+          returnJSON(res, {
+            code: -1,
+            msg: '删除留言失败'
+          })
+        }
+      })
     })
   }
 }
