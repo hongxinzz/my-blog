@@ -1,15 +1,14 @@
 <template>
     <div class="newList-wrap">
-        <h2>New Article</h2>
+        <h2><i class="iconfont blog-New-Tag"></i>New</h2>
       <div class="article-wrap">
         <div :class="itemIndex === index ? 'article isRotate':'article' " v-for="(item,index) in blogList" v-if="blogList" @mouseover="rotate(index)" @mouseout="rotate(-1)">
           <div class="showImg">
-            <!--{{index}}-->
             <img :src="item.cover" alt="">
           </div>
-          <div class="showText">
+          <div class="showText" @click="goBlogDetails(item._id)">
             <h3>{{item.title}}</h3>
-            <time>{{item.time}}</time>
+            <!--<time>{{item.time}}</time>-->
           </div>
         </div>
       </div>
@@ -24,7 +23,7 @@
           blogList: [], // 博客
           pageLimit: 3, // 每页数量
           isHover:false,
-          itemIndex:-1
+          itemIndex:-1,
       }
     },
     created:function(){
@@ -41,12 +40,15 @@
           this.blogList = data.data.data
         })
       },
+      goBlogDetails(id){
+        console.log(id)
+        this.$router.push({ name: 'details', params: { id: id }})
+      },
       rotate(index){
-        console.log(index)
-        this.itemIndex = index
-      }
+        this.itemIndex = index;
       }
     }
+  }
 </script>
 
 <style scoped lang="scss">
@@ -58,6 +60,11 @@
       margin-bottom: 30px;
       color:#666;
       border-bottom: 1px dashed #ececec;
+      i{
+        font-size: 18px;
+        margin-right: 15px;
+        color: #b9f73e;
+      }
     }
     .article-wrap{
       display: flex;
@@ -88,6 +95,10 @@
           }
         }
         .showText{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
           height: 100%;
           width: 100%;
           padding: 4px;
