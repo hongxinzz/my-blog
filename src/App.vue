@@ -9,7 +9,8 @@
   </div>
 </template>
 
-<script>import blogHeader from './components/blog-header/blogHeader'
+<script>
+import blogHeader from './components/blog-header/blogHeader'
 export default {
   name: 'App',
   components: {blogHeader}
