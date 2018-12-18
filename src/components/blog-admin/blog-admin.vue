@@ -56,6 +56,7 @@ export default {
             password: this.formInline.password
           }).then(function (data) {
             console.log(data)
+            window.localStorage.setItem('USER_LOGIN','true');
           })
             .catch(function (error) {
               console.log(error)
