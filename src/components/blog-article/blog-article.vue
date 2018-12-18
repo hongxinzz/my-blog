@@ -57,7 +57,8 @@ export default {
       this.pageNum = page
       this.axios.get('/api/get_blogs_page', {
         params: {
-          page: page
+          page: page,
+          pageLimit:this.pageLimit
         }
       }).then(data => {
         console.log(data.data.data, data.data.data.count)
