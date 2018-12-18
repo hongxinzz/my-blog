@@ -9,6 +9,7 @@ import store from './store/store.js'
 import 'iview/dist/styles/iview.css'
 import Highlight from './plugins/highlight'
 import 'highlight.js/styles/atom-one-dark-reasonable.css'
+import  './assets/css/iconfont.css'
 
 Vue.config.productionTip = false
 Vue.use(iView)
