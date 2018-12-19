@@ -1,30 +1,37 @@
-# my-blog
+# Vue写的个人博客(原生node版)
+## 一个通过markdown 转码为Html的博客小站
+## 技术栈
+- 前端
+  - Vue
+  - Vue-Router
+  - Vuex
+  - Sass
+  - axios
+- 后台
+  - Node(原生下一个版本会采用koa) 
+- 数据库
+  - mongodb
+- Ui
+  - ElementUi(部分)
+- 工具
+  - markedown(用来转码markdown为html)
+  - Highlight.js(代码高亮)
+ 
 
-> A Vue.js project
+ 完成页面如下：
+- [x] 首页
+- [x] 标签页
+- [x] 留言板
+- [ ] Demo页面
+- [ ] 友情链接
+- [ ] 音乐播放界面
 
-## Build Setup
 
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+```js
+  git clone  https://github.com/hongxinzz/my-blog.git
+  npm install
+  moongod(启动本地数据库)
+  node server/server.js（启动node服务）
+  node server/action/markHtml.js(将Markdown入库数据库)
+  npm start
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
