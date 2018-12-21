@@ -1,6 +1,6 @@
 <template>
     <div class="message-wrap">
-      <BlogHeader />
+      <!--<BlogHeader />-->
       <div class="message-header">
         <h1>MESSAGES</h1>
       </div>
@@ -333,7 +333,7 @@
                 }
               }
               input{
-                width: 100%;
+                width: 88%;
                 margin-bottom: 20px;
                 margin-top: 5px;
                 padding: 10px 14px;
