@@ -67,7 +67,7 @@ export default {
       })
     },
     getTags (list) {
-      let newList = list.split(' ')
+      let newList = list
       return newList
     },
     getBlogPage () {
@@ -221,7 +221,7 @@ export default {
       text-align: center;
       button{
         display: inline-block;
-        padding: 0 12px;
+        padding: 10px 12px;
         color:#c0c4cc ;
         font-size: 14px;
         border: none;
