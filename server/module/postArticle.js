@@ -7,7 +7,7 @@ const post_article = new mongoose.Schema({
   cover: String,
   introduction:String,
   content: String,
-  tags: String,
+  tags: Array,
   time: String
 })
 
