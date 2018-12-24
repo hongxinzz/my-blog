@@ -78,6 +78,7 @@
         margin: 0 4px;
         position:relative;transition:0.6s;transform-style:preserve-3d;
         .showImg,.showText{
+          box-sizing: border-box;
           position:absolute;
           top: 0px;
           left: 0px;
