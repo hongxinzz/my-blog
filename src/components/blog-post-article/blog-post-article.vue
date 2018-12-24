@@ -6,10 +6,13 @@
     <div class="content-wrap">
       <div class="write-article">
         <div class="from-group">
-          <input type="text" placeholder="请输入标题">
+          <input type="text" placeholder="请输入文章标题" v-model="title">
         </div>
         <div class="from-group">
-          <input type="text" placeholder="请输入文章详情">
+          <input type="text" placeholder="请输入文章详情" v-model="introduction">
+        </div>
+        <div class="from-group">
+          <input type="text" placeholder="请添加文章封面" v-model="cover">
         </div>
         <div class="from-group tags-list">
           <span v-if="!showTags&&tagsList.length === 0" @click="showAddTags()">点击我添加标签</span>
@@ -21,22 +24,21 @@
           </div>
         </div>
         <div class="post">
-          <button>发布文章</button>
+          <button @click="postNewArticle()">发布文章</button>
         </div>
       </div>
-
       <div class="show-article">
         <div class="from-group">
           <textarea v-model="content"></textarea>
         </div>
-        <article class="markdown" v-highlight v-html="markedToHtml()">11</article>
+        <div class="markdown" v-highlight v-html="markedToHtml()"></div>
       </div>
     </div>
     </div>
 </template>
 
 <script>
-
+  import { Message } from 'element-ui';
   import marked from 'marked'
   export default {
     name: 'blog-post-article',
@@ -44,8 +46,11 @@
       return{
         showTags:false,
         tagsList:[],
+        title:'',
+        introduction:'',
         tagsName:'',
         content:'',
+        cover:''
       }
     },
     methods:{
@@ -54,6 +59,10 @@
       },
       addTagList(){
         if(this.tagsName === ""){
+          this.Message.error('标签不能为空');
+          return false
+        }else if(this.tagsList.length >= 3){
+          this.Message.error('最多为3个标签');
           return false
         }
         this.tagsList.push(this.tagsName);
@@ -64,12 +73,39 @@
       },
       markedToHtml(){
        return  marked(this.content)
+      },
+      postNewArticle(){
+        if(this.title === ""){
+          Message.error('标题不能为空');
+          return false
+        }else if(this.introduction === ""){
+          Message.error('说明不能为空');
+          return false
+        }else if(this.cover === ""){
+          Message.error('文章封面不能为空');
+          return false
+        }else if(this.tags === ""){
+          Message.error('tags不能为空');
+          return false
+        }else if(this.content === ""){
+          Message.error('文章内容不能为空');
+          return false
+        }
+        this.axios.post('/api/post_article', {
+          title: this.title,
+          introduction: this.introduction,
+          cover:this.cover,
+          tags:this.tagsList,
+          content:this.content
+        }).then(function (data) {
+          console.log(data)
+        })
       }
     }
   }
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
   .post-article {
     /*display: flex;*/
     /*width: 1000px;*/
