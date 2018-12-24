@@ -6,7 +6,6 @@
           <li><router-link :to="{name:'tags',params: {type:'html'}}">标签页</router-link></li>
         </div>
         <p>Copyright © 2018 freddyhx All Rights Reserved | 闽ICP备18026258号-1</p>
-        <a id="jsl_speed_stat0" href="http://www.yunaq.com/#zid=5c18ae99796db40d249c5620" target="_blank">知道创宇云安全</a>
       </div>
     </div>
 </template>
