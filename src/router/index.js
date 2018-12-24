@@ -5,6 +5,7 @@ import BlogIndex from '../components/blog-index/blog-index'
 import bloogDetails from '../components/blog-details/blog-details'
 import blogTags from '../components/blog-tags/blogTags'
 import BlogMessage from '../components/blog-message/blog-message'
+import BlogPostArticle from '../components/blog-post-article/blog-post-article'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path:'/message',
       name: 'message',
       component:BlogMessage
+    },
+    {
+      path:'/post-article',
+      name:'post-article',
+      component:BlogPostArticle
     }
   ],
   /**
