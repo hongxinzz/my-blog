@@ -15,18 +15,27 @@ const post_article = new mongoose.Schema({
 })
 let postArticle = mongoose.model('postArticle', post_article)
 
-let myMongoose = (err,data) =>{
-  return new Promise((resolve ,reject)=>{
-    if(data){
-      resolve(data);
-    }else{
-      reject(err)
-    }
-  })
+
+/**
+ *  读取标签对应的文章
+ * @param tag
+ */
+module.exports.findArticleByTag = tag =>{
+ return postArticle.find({tags:{$regex:tag}})
 }
 
-module.exports.findArticleBytag = tag =>{
- return postArticle.find({tags:{$regex:tag}}, function (err, comment) {
-   return  myMongoose(err,comment);
-  })
+/**
+ * 文章详情页面
+ * @param id
+ */
+module.exports.findArticleOne = id =>{
+  return postArticle.find({_id:id})
+}
+
+/**
+ * 获取所有标签
+ * @returns {number | * | BigInt | T}
+ */
+module.exports.findArticleAllTag = () =>{
+  return postArticle.find({}, {tags:1,"_id":0})
 }
