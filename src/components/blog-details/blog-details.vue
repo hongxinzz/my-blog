@@ -4,8 +4,7 @@
     <div class="details-banner" v-if="blogData">
         <div class="details-header">
           <div class="header-tags">
-            <router-link v-for="(tags,index) in getTags(blogData.tags)" :key="index"  :to="{name:'tags',params: {type:tags}}">{{tags}}</router-link>
-            <!--<a href="">html</a>-->
+            <router-link v-for="(tags,index) in blogData.tags" :key="index"  :to="{name:'tags',params: {type:tags}}">{{tags}}</router-link>
           </div>
           <h1>{{blogData.title}}</h1>
           <div class="header-time">
@@ -44,15 +43,11 @@ export default {
           id: this.blog_id
         }
       }).then(data => {
-        this.blogData = data.data.data[0]
+        console.log(data.data)
+        this.blogData = data.data[0]
       }).then(err => {
         console.log(err)
       })
-    },
-    getTags (list) {
-      console.log(list.split(' '))
-      let newList = list.split(' ')
-      return newList
     }
   }
 }
