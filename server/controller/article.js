@@ -1,4 +1,4 @@
-const articleModule = require('../module/postArticle');
+const articleModule = require('../module/article');
 
 /**
  * 通过标签查找文章(模糊搜索)
@@ -42,8 +42,44 @@ module.exports.findArticleAllTag = async ctx =>{
     })
 }
 
+/**
+ * 获取所有文章个数并分页
+ * @param ctx
+ * @returns {Promise<void>}
+ */
+module.exports.getArticlePage = async ctx =>{
+  let data = ctx.query;
+  let page = data.page;
+  let start = (page - 1) * 5;
+  let pageLimit;
+  if(!pageLimit){
+    pageLimit = null
+  }
+  pageLimit = Number(data.pageLimit);
+  //获取所有文章总数
+  let count =  await articleModule.getArticleCount();
+  //分页操作
+  await articleModule.getArticlePage(start,pageLimit)
+    .then(res=>{
+      let data = {data: res, count: count}
+      checkDataType(ctx,data)
+    })
+}
 
 
+module.exports.getArticleNew = async ctx => {
+  let data = ctx.query;
+  let pageLimit = Number(data.pageLimit)
+  await  articleModule.getArticleNew(pageLimit)
+    .then(res=>{
+    checkDataType(ctx,res)
+  })
+}
+/**
+ * 判断是否正确数据
+ * @param ctx
+ * @param data
+ */
 function checkDataType(ctx,data){
   if(data){
     ctx.body = data;
