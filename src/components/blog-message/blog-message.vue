@@ -21,7 +21,7 @@
                <!--:src="item.pic !=='' ? item.pic:'../../assets/images/avatar.png'"-->
                <img :src="item.pic ==='' ? 'http://t.cn/EUdyFtA' :item.pic" alt="">
                <div class="body">
-                 <p>{{item.userName}}<time></time></p>
+                 <p>{{item.userName}}<time>{{item.time}}</time></p>
                  <p>{{item.content}}</p>
                  <div class="delete">
                    <span @click="deleteMessage(item._id)">删除</span>
@@ -120,7 +120,7 @@
             page: this.page,
           }
         }).then(data => {
-          this.checkDatas(data.data.data.data)
+          this.checkDatas(data.data.data)
         })
       },
       goDetail(id){
@@ -160,7 +160,7 @@
           content:this.content,
           pic:this.pic
         }).then(function (data) {
-          if(data.data.code === 1){
+          if(data){
             Message.success('您的留言发表成功！')
             that.getBlogMessage()
           }
@@ -168,8 +168,7 @@
       },
       getBlogMessage(){
         this.axios.get('/api/get_blog_message').then(data=>{
-          console.log(data);
-          this.messageList = data.data.data;
+          this.messageList = data.data
         })
       },
       deleteMessage(messageId){
@@ -181,10 +180,10 @@
           return
         }
         this.axios.post('/api/delete_blog_message', {
-          messageId:messageId
+          id:messageId
         }).then(function (data) {
-         if(data.data.code === 1){
-           Message.success(data.data.msg);
+         if(data.n !== 1){
+           Message.success('删除成功');
            that.getBlogMessage();
          }
         })
@@ -498,8 +497,11 @@
           }
         }
       }
-      li{
-        cursor: pointer;
+      ul{
+        padding: 0;
+        li{
+          cursor: pointer;
+        }
       }
     }
   }
