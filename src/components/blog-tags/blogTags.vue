@@ -43,16 +43,16 @@ export default {
           tags: tags
         }
       }).then(data => {
-        this.blogsList = data.data.data
-        console.log(this.blogsList)
+        this.blogsList = data.data
+        console.log(data)
       }).then(err => {
         console.log(err)
       })
     },
     getBlogTags(){
       this.axios.get('api/get_blogs_tags').then(data=>{
-        console.log(data)
-        this.tagsList = data.data.data;
+        console.log(Array.from(new Set(data.data.data)))
+        this.tagsList = data.data;
       })
     }
   }
