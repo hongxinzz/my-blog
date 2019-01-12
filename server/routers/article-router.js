@@ -11,7 +11,11 @@ router.get('/api/get_blogs_one', article.findArticleOne)
 // 读取所有文章的标签
 router.get('/api/get_blogs_tags', article.findArticleAllTag)
 
+// 分页操作
+router.get('/api/get_blogs_page', article.getArticlePage)
 
+// 查找最新的三个
+router.get('/api/get_blogs_new', article.getArticleNew)
 
 
 
