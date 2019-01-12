@@ -66,7 +66,11 @@ module.exports.getArticlePage = async ctx =>{
     })
 }
 
-
+/**
+ * 获取最新3个
+ * @param ctx
+ * @returns {Promise<void>}
+ */
 module.exports.getArticleNew = async ctx => {
   let data = ctx.query;
   let pageLimit = Number(data.pageLimit)
@@ -75,6 +79,22 @@ module.exports.getArticleNew = async ctx => {
     checkDataType(ctx,res)
   })
 }
+
+/**
+ * 发布文章
+ * @param ctx
+ * @returns {Promise<void>}
+ */
+module.exports.postArticle = async ctx =>{
+  let data = ctx.request.body;
+  await articleModule.postArticle(data)
+    .then(res=>{
+      checkDataType(ctx,res)
+    })
+}
+
+
+
 /**
  * 判断是否正确数据
  * @param ctx
