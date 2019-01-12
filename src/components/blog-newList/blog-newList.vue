@@ -36,12 +36,10 @@
             pageLimit: this.pageLimit
           }
         }).then(data => {
-          console.log(data.data.data)
-          this.blogList = data.data.data
+          this.blogList = data.data
         })
       },
       goBlogDetails(id){
-        console.log(id)
         this.$router.push({ name: 'details', params: { id: id }})
       },
       rotate(index){
