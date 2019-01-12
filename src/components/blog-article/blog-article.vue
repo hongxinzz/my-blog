@@ -14,7 +14,7 @@
       <footer class="post-meta">
       <div class="author"><i class="iconfont blog-zuozhe"></i>FreddyZhuo</div>
         <div class="post-tags">
-          <router-link :to="{name:'tags',params: {type:tags}}" v-for="(tags,index) in getTags(blog.tags)" :key="index"><i class="iconfont blog-biaoqian1"></i>{{tags}}</router-link>
+          <router-link :to="{name:'tags',params: {type:tags}}" v-for="(tags,index) in blog.tags" :key="index"><i class="iconfont blog-biaoqian1"></i>{{tags}}</router-link>
         </div>
         <time class="post-date" >
          <i class="iconfont blog-time"></i>{{blog.time}}
@@ -61,14 +61,10 @@ export default {
           pageLimit:this.pageLimit
         }
       }).then(data => {
-        console.log(data.data.data, data.data.data.count)
-        this.blogList = data.data.data.data
-        this.pageCount = Math.ceil(data.data.data.count / this.pageLimit)
+        this.blogList = data.data.data
+        this.pageCount = Math.ceil(data.data.count / this.pageLimit)
+        console.log(this.blogList)
       })
-    },
-    getTags (list) {
-      let newList = list
-      return newList
     },
     getBlogPage () {
       this.axios.get('/api/get_blogs_page', {
