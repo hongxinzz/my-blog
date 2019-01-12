@@ -1,5 +1,5 @@
 # Vue写的个人博客(原生node版)
-## 一个通过markdown 转码为Html的博客小站
+## 一个通过markdown 转码为Html的博客小站(同时支持在线编写)
 ## 技术栈
 - 前端
   - Vue
@@ -9,6 +9,7 @@
   - axios
 - 后台
   - Node(原生下一个版本会采用koa) 
+  - [x] 已完成使用koa (2019.01.12)
 - 数据库
   - mongodb
 - Ui
