@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const moment = require('moment');
 
 /**
@@ -79,7 +79,7 @@ module.exports.postArticle = data =>{
     cover: data.cover,
     introduction: data.introduction,
     content: data.content,
-    time: moment().format()
+    time: moment().format("YYYY-MM-DD HH:mm:ss")
   })
   return  person.save();
 }
