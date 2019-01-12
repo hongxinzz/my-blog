@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const moment = require('moment');
 
 /**
  * 文章页面的数据模型
@@ -58,6 +59,27 @@ module.exports.getArticlePage = (start,pageLimit) =>{
   return _Article.find({}).sort({time:-1}).skip(start).limit(pageLimit).exec();
 }
 
+/**
+ * 获取最新3个
+ * @param pageLimit
+ * @returns {RegExpExecArray | * | null}
+ */
 module.exports.getArticleNew = pageLimit =>{
   return _Article.find({}).sort({time:-1}).limit(pageLimit).exec();
+}
+
+/**
+ * 发布文章
+ * @param data
+ */
+module.exports.postArticle = data =>{
+  let person = new _Article({
+    title: data.title,
+    tags: data.tags,
+    cover: data.cover,
+    introduction: data.introduction,
+    content: data.content,
+    time: moment().format()
+  })
+  return  person.save();
 }
