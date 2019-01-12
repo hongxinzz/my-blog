@@ -2,6 +2,8 @@ const router = require('koa-router')();
 //引入文章数据模型
 const article = require('../controller/article');
 
+/************************ GET ***************************/
+
 // 读取标签对应文章(模糊搜索)
 router.get('/api/get_blogs_by_tags', article.findArticleByTag)
 
@@ -17,6 +19,9 @@ router.get('/api/get_blogs_page', article.getArticlePage)
 // 查找最新的三个
 router.get('/api/get_blogs_new', article.getArticleNew)
 
+
+/************************ POST ***************************/
+router.post('/api/post_article',article.postArticle)
 
 
 module.exports = router
