@@ -25,6 +25,11 @@ module.exports.getMessage = async ctx =>{
     })
 }
 
+/**
+ * 删除留言
+ * @param ctx
+ * @returns {Promise<void>}
+ */
 module.exports.deleteMessage = async ctx =>{
   let data = ctx.request.body
   console.log(data)
