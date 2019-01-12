@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const moment = require('moment');
 /**
  * 发布留言模板(游客模式)
  * @type {mongoose.Schema}
@@ -9,7 +9,8 @@ const message = new mongoose.Schema({
   userName:String,
   email:String,
   content:String,
-  pic:String
+  pic:String,
+  time:String
 })
 
 let _Message = mongoose.model('PostMessage', message)
@@ -23,7 +24,8 @@ module.exports.postMessage = (data) =>{
     userName: data.userName,
     email: data.password,
     content:data.content,
-    pic:data.pic
+    pic:data.pic,
+    time:moment().format("YYYY-MM-DD HH:mm:ss")
   })
   return person.save();
 }
