@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import blogFooter from '../blog-footer/blog-footer'
+import blogFooter from '../blog-footer/blog-footer.vue'
 export default {
   name: 'blogTags',
   components: {blogFooter},
@@ -50,7 +50,7 @@ export default {
       })
     },
     getBlogTags(){
-      this.axios.get('api/get_blogs_tags').then(data=>{
+      this.axios.get('/api/get_blogs_tags').then(data=>{
         console.log(Array.from(new Set(data.data.data)))
         this.tagsList = data.data;
       })
