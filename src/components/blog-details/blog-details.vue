@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import blogHeader from '../blog-header/blogHeader'
+import blogHeader from '../blog-header/blog-header.vue'
 export default {
   name: 'blog-details',
   components: {blogHeader},

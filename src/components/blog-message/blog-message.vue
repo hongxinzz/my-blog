@@ -80,7 +80,7 @@
 </template>
 
 <script>
-  import BlogHeader from '../blog-header/blogHeader'
+  import BlogHeader from '../blog-header/blog-header.vue'
   import { Message } from 'element-ui';
   export default {
     name: 'blog-message',
@@ -429,7 +429,8 @@
         margin-bottom: 15px;
         img{
           display: inline-block;
-          width: 100px;
+          min-width: 100px;
+          max-width: 100px;
           height: 75px;
           margin-right:15px;
         }

@@ -107,8 +107,6 @@
 
 <style  lang="scss">
   .post-article {
-    /*display: flex;*/
-    /*width: 1000px;*/
     .post-article-header {
       padding: 20px;
       text-align: center;

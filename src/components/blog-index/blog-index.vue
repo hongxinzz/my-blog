@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import blogContent from '..//blog-content/blog-content'
-import blogFooter from '../blog-footer/blog-footer'
+import blogContent from '../blog-content/blog-content.vue'
+import blogFooter from '../blog-footer/blog-footer.vue'
 export default {
   name: 'blog-index',
   components: {blogContent, blogFooter}
