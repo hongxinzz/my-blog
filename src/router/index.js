@@ -1,35 +1,45 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+import BlogAdmin from '../components/blog-admin/blog-admin.vue'
+import BlogIndex from '../components/blog-index/blog-index.vue'
+import bloogDetails from '../components/blog-details/blog-details.vue'
+import blogTags from '../components/blog-tags/blog-tags.vue'
+import BlogMessage from '../components/blog-message/blog-message.vue'
+import BlogPostArticle from '../components/blog-post-article/blog-post-article.vue'
 
-export default new VueRouter({
+Vue.use(Router)
+
+export default new Router({
   routes: [
     {
       path: '',
       name: 'blog-index',
-      component: resolve => require(['../components/blog-index/blog-index'], resolve)
+      component: BlogIndex
     },
     {
       path: '/admin',
       name: 'blog-admin',
-      component: resolve => require(['../components/blog-admin/blog-admin'], resolve)
+      component: BlogAdmin
     },
     {
       path: '/details/:id',
       name: 'details',
-      component: resolve => require(['../components/blog-details/blog-details'], resolve)
+      component: bloogDetails
     },
     {
       path: '/tags/:type',
       name: 'tags',
-      component: resolve => require(['../components/blog-tags/blogTags'], resolve)
+      component: blogTags
     },
     {
       path:'/message',
       name: 'message',
-      component:resolve => require(['../components/blog-message/blog-message'], resolve)
+      component:BlogMessage
     },
     {
       path:'/post-article',
       name:'post-article',
-      component:resolve => require(['../components/blog-post-article/blog-post-article'], resolve)
+      component:BlogPostArticle
     }
   ],
   /**
