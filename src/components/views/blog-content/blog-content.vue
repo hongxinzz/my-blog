@@ -15,8 +15,8 @@
 <script>
 // import blogNewList from '../blog-newList/blog-newList'
 import blogArticle from '../blog-article/blog-article.vue'
-import blogSider from '../blog-sider/blog-sider.vue'
-import blogNewList from  '../blog-newList/blog-newList.vue'
+import blogSider from '../blog-slider/blog-slider.vue'
+import blogNewList from '../blog-newList/blog-newList.vue'
 export default {
   name: 'blog-content',
   components: {blogArticle, blogSider,blogNewList}
