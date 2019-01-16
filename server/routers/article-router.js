@@ -23,5 +23,8 @@ router.get('/api/get_blogs_new', article.getArticleNew)
 /************************ POST ***************************/
 router.post('/api/post_article',article.postArticle)
 
+//删除文章
+router.post('/api/delete_article',article.deleteArticle)
+
 
 module.exports = router

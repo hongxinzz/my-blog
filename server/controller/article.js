@@ -91,7 +91,20 @@ module.exports.postArticle = async ctx =>{
     .then(res=>{
       checkDataType(ctx,res)
     })
-}
+};
+
+/**
+ * 删除文章
+ * @param ctx
+ * @returns {Promise<void>}
+ */
+module.exports.deleteArticle = async  ctx =>{
+    let data = ctx.request.body;
+    await  articleModule.deleteArticle(data.id)
+        .then(res=>{
+            checkDataType(ctx,res)
+        })
+};
 
 
 
