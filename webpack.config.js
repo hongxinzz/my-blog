@@ -1,11 +1,10 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HTMLPlugin = require('html-webpack-plugin');
-
-//清楚文件操作
+const CompressionPlugin = require('compression-webpack-plugin');
+//清除文件操作
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 //分离css
-
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
@@ -14,6 +13,12 @@ module.exports = {
   output: {
     filename: 'js/[name].js',
     path: path.resolve(__dirname, './dist')
+  },
+   externals:{
+        'vue': 'Vue',
+        'vue-router': 'VueRouter',
+        'vuex': 'Vuex',
+        'axios': 'axios'
   },
   module: {
     rules: [{
@@ -38,14 +43,25 @@ module.exports = {
       loader: 'babel-loader'
     }],
   },
-  plugins: [
-    new VueLoaderPlugin(),
-    new HTMLPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true
-    }),
-    new CleanWebpackPlugin(['dist']),
-    new ExtractTextPlugin('/css/style.css')
+    devServer: {
+        proxy: {
+            '/api': 'http://127.0.1:8088'
+        }
+    },
+    plugins: [
+        new VueLoaderPlugin(),
+        new HTMLPlugin({
+          filename: 'index.html',
+          template: 'index.html',
+          inject: true
+        }),
+        new CleanWebpackPlugin(['dist']),
+        new ExtractTextPlugin('dist/css/style.css'),
+        new CompressionPlugin({
+            filename: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.js$|\.css$|\.html$/,
+            minRatio: 0.8
+        })
   ]
-}
+};

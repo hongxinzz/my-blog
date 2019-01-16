@@ -1,13 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import BlogAdmin from '../components/blog-admin/blog-admin.vue'
-import BlogIndex from '../components/blog-index/blog-index.vue'
-import bloogDetails from '../components/blog-details/blog-details.vue'
-import blogTags from '../components/blog-tags/blog-tags.vue'
-import BlogMessage from '../components/blog-message/blog-message.vue'
-import BlogPostArticle from '../components/blog-post-article/blog-post-article.vue'
+import BlogAdmin from '../components/views/blog-admin/blog-admin.vue'
+import BlogIndex from '../components/views/blog-index/blog-index.vue'
+import bloogDetails from '../components/views/blog-details/blog-details.vue'
+import blogTags from '../components/views/blog-tags/blog-tags.vue'
+import BlogMessage from '../components/views/blog-message/blog-message.vue'
+import BlogPostArticle from '../components/views/blog-post-article/blog-post-article.vue'
 
-Vue.use(Router)
+/************************博客后台**************************/
+import AdminSlider from  '../components/admin/admin-slider/admin-slider.vue'
+import OverView from '../components/admin/admin-slider/over-view/over-view.vue'
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -40,6 +43,18 @@ export default new Router({
       path:'/post-article',
       name:'post-article',
       component:BlogPostArticle
+    },
+    {
+      path:'/admin-slider',
+      name:'admin-slider',
+      component:AdminSlider,
+        children: [
+            {
+                path: 'overview',
+                component: OverView,
+                name: 'overview',
+            }
+        ]
     }
   ],
   /**

@@ -1,0 +1,154 @@
+<template>
+    <div class="admin-slider">
+        <div class="user-card">
+            <img src="http://t.cn/EUdyFtA" alt="" class="user-pic">
+            <p class="user-name">欢迎回来<br>测试啊</p>
+        </div>
+        <nav class="nav">
+            <router-link to="/admin-slider/overview">Go to hello</router-link>
+            <ul>
+                <li class="nav-item" @click="changeCollapse('collapse1')">
+                    <div :class="[collapse.collapse1 ? 'menu-submenu collapse' :'menu-submenu']" >
+                        <p>
+                            <i></i>控制台
+                        </p>
+                        <ul>
+                            <li><i></i>概览</li>
+                            <li><i></i>个人设置</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item" @click="changeCollapse('collapse2')">
+                    <div :class="[collapse.collapse2 ? 'menu-submenu collapse' :'menu-submenu']">
+                        <p>
+                            <i></i>撰写
+                        </p>
+                        <ul>
+                            <li>管理</li>
+                            <li>标签设置</li>
+                            <input type="text" v-model="articleId">
+                            <button @click="deleteArticle()">删除</button>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <router-view></router-view>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "admin-slider",
+        data(){
+            return{
+                articleId:'',
+                collapse:{
+                    collapse1:false,
+                    collapse2:false,
+                    collapse3:false
+                }
+            }
+        },
+        methods:{
+            deleteArticle(){
+                this.axios.post('/api/delete_article', {
+                   id:this.articleId
+                }).then(function (data) {
+                    console.log(data)
+                })
+            },
+            changeCollapse(bool){
+                this.collapse[bool]  = !this.collapse[bool]
+                this.$router.push({ name: 'OverView'})
+            }
+        }
+    }
+</script>
+
+<style scoped lang="scss">
+.admin-slider{
+    width: 230px;
+    height: 100vh;
+    background: #001529;
+    z-index: 99999999;
+    .user-card{
+        height: 142px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #001529;
+        img{
+            display: inline-block;
+            width: 88px;
+            height: 88px;
+            margin-right: 26px;
+            border-radius: 50%;
+        }
+        p{
+            font-size: 18px;
+            text-align: center;
+            color: #fff;
+        }
+    }
+    .nav{
+        background: #001529;
+        .nav-item{
+            padding: 0  15px;
+            cursor: pointer;
+            .menu-submenu{
+                p{
+                    position: relative;
+                    font-size:18px ;
+                    height: 52px;
+                    line-height: 52px;
+                    color: #fff;
+                    i{
+                        margin-right: 15px;
+                    }
+                    &:after{
+                        position: absolute;
+                        right: 15px;
+                        top:13px;
+                        content: '';
+                        width:0;
+                        height:0;
+                        border:6px solid #fff;
+                        transform: rotate(90deg);
+                        border-color: transparent transparent #fff transparent;
+                    }
+                }
+                ul{
+                    height: 0;
+                    overflow: hidden;
+                    li{
+                        height: 50px;
+                        padding-left: 30px;
+                        line-height: 50px;
+                        transition: all .3s linear;
+                        cursor: pointer;
+                        color: rgba(255,255,255,.6);
+                        i{
+                            margin-right: 15px;
+                        }
+                        &:hover{
+                            color: rgba(255,255,255,1);
+                        }
+                    }
+                }
+            }
+            .collapse{
+                ul{
+                    height: auto;
+                }
+                p{
+                    &:after{
+                        margin-top: -4px;
+                        transform: rotate(0deg)
+                    }
+                }
+            }
+        }
+    }
+}
+</style>

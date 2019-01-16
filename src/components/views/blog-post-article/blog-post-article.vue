@@ -29,7 +29,7 @@
       </div>
       <div class="show-article">
         <div class="from-group">
-          <textarea v-model="content"></textarea>
+          <textarea v-model="text"></textarea>
         </div>
         <div class="markdown" v-highlight v-html="markedToHtml()"></div>
       </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import { Message } from 'element-ui';
+  // import { Message } from 'element-ui';
   import marked from 'marked'
   export default {
     name: 'blog-post-article',
@@ -49,8 +49,9 @@
         title:'',
         introduction:'',
         tagsName:'',
-        content:'',
-        cover:''
+        text:'',
+        cover:'',
+          content:""
       }
     },
     methods:{
@@ -59,10 +60,10 @@
       },
       addTagList(){
         if(this.tagsName === ""){
-          this.Message.error('标签不能为空');
+          // this.Message.error('标签不能为空');
           return false
         }else if(this.tagsList.length >= 3){
-          this.Message.error('最多为3个标签');
+          // this.Message.error('最多为3个标签');
           return false
         }
         this.tagsList.push(this.tagsName);
@@ -72,23 +73,24 @@
         this.tagsList.splice(index,1)
       },
       markedToHtml(){
-       return  marked(this.content)
+          this.content = marked(this.text);
+       return  marked(this.text)
       },
       postNewArticle(){
         if(this.title === ""){
-          Message.error('标题不能为空');
+          // Message.error('标题不能为空');
           return false
         }else if(this.introduction === ""){
-          Message.error('说明不能为空');
+          // Message.error('说明不能为空');
           return false
         }else if(this.cover === ""){
-          Message.error('文章封面不能为空');
+          // Message.error('文章封面不能为空');
           return false
         }else if(this.tags === ""){
-          Message.error('tags不能为空');
+          // Message.error('tags不能为空');
           return false
         }else if(this.content === ""){
-          Message.error('文章内容不能为空');
+          // Message.error('文章内容不能为空');
           return false
         }
         this.axios.post('/api/post_article', {
