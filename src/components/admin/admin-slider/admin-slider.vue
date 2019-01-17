@@ -5,7 +5,6 @@
             <p class="user-name">欢迎回来<br>测试啊</p>
         </div>
         <nav class="nav">
-            <router-link to="/admin-slider/overview">Go to hello</router-link>
             <ul>
                 <li class="nav-item" @click="changeCollapse('collapse1')">
                     <div :class="[collapse.collapse1 ? 'menu-submenu collapse' :'menu-submenu']" >
@@ -13,7 +12,7 @@
                             <i></i>控制台
                         </p>
                         <ul>
-                            <li><i></i>概览</li>
+                            <li @click.stop="goChildPath('/admin-home')"><i></i>概览</li>
                             <li><i></i>个人设置</li>
                         </ul>
                     </div>
@@ -33,7 +32,6 @@
                 </li>
             </ul>
         </nav>
-        <router-view></router-view>
     </div>
 </template>
 
@@ -59,8 +57,12 @@
                 })
             },
             changeCollapse(bool){
-                this.collapse[bool]  = !this.collapse[bool]
-                this.$router.push({ name: 'OverView'})
+                // console.log(e)
+                // e.stopPropagation();
+                this.collapse[bool]  = !this.collapse[bool];
+            },
+            goChildPath(path){
+                this.$router.push(path)
             }
         }
     }
@@ -68,7 +70,7 @@
 
 <style scoped lang="scss">
 .admin-slider{
-    width: 230px;
+    width: 260px;
     height: 100vh;
     background: #001529;
     z-index: 99999999;
@@ -140,6 +142,7 @@
             .collapse{
                 ul{
                     height: auto;
+                    z-index: 99;
                 }
                 p{
                     &:after{
