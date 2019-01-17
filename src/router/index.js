@@ -9,7 +9,8 @@ import BlogPostArticle from '../components/views/blog-post-article/blog-post-art
 
 /************************博客后台**************************/
 import AdminSlider from  '../components/admin/admin-slider/admin-slider.vue'
-import OverView from '../components/admin/admin-slider/over-view/over-view.vue'
+import AdminHome from  '../components/admin/admin-home/admin-home.vue'
+import OverView from '../components/admin/over-view/over-view.vue'
 Vue.use(Router);
 
 export default new Router({
@@ -45,12 +46,12 @@ export default new Router({
       component:BlogPostArticle
     },
     {
-      path:'/admin-slider',
-      name:'admin-slider',
-      component:AdminSlider,
+      path:'/admin-home',
+      name:'admin-home',
+      component:AdminHome,
         children: [
             {
-                path: 'overview',
+                path: '',
                 component: OverView,
                 name: 'overview',
             }
