@@ -145,6 +145,10 @@ export default {
       font-size: 14px;
       line-height: 1.5;
     }
+    h1~h6{
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
     h2{
       font-size: 24px;
       line-height: 32px;
