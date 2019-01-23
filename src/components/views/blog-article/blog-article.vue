@@ -1,4 +1,4 @@
-<template lang="ejs">
+<template>
   <div class="article-list" v-if="blogList">
   <h1><i class="iconfont blog-remen"></i>Hot</h1>
     <article class="article-item" v-for=" (blog,index) in blogList" :key="index">
