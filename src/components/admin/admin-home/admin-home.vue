@@ -26,8 +26,7 @@
     }
     .child-router{
         flex: 1;
-        padding-top: 58px;
-        background: #001529;
+        padding: 20px;
     }
 }
 </style>
