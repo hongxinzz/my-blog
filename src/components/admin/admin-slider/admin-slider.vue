@@ -23,8 +23,8 @@
                             <i></i>撰写
                         </p>
                         <ul>
-                            <li>管理</li>
-                            <li>标签设置</li>
+                            <li  @click.stop="goChildPath('/admin-home/article-edit')">管理</li>
+                            <li @click.stop="goChildPath('/admin-home/tags-edit')">标签设置</li>
                             <input type="text" v-model="articleId">
                             <button @click="deleteArticle()">删除</button>
                         </ul>
