@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="app">
     <!--header -->
-    <blogHeader />
+    <blogHeader v-if="$route.meta.navShow"/>
     <!--路由展示-->
     <transition name="left">
       <router-view class="app-view"></router-view>
@@ -13,7 +13,7 @@
 import blogHeader from './components/views/blog-header/blog-header.vue'
 export default {
   name: 'App',
-  components: {blogHeader}
+  components: {blogHeader},
 }
 </script>
 
