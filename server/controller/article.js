@@ -106,6 +106,19 @@ module.exports.deleteArticle = async  ctx =>{
         })
 };
 
+/**
+ * 修改文章
+ * @param ctx
+ * @returns {Promise<void>}
+ */
+module.exports.editArticle = async ctx =>{
+    let data = ctx.request.body;
+    await articleModule.editArticle(data)
+        .then(res=>{
+            console.log(res)
+            checkDataType(ctx,res)
+        })
+};
 
 
 /**
@@ -119,5 +132,4 @@ function checkDataType(ctx,data){
   }else{
     ctx.body = 'error'
   }
-
 }

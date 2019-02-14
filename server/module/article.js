@@ -12,8 +12,9 @@ const article = new mongoose.Schema({
   introduction:String,
   content: String,
   tags: Array,
-  time: String
-})
+  time: String,
+  lastChangeTime:String
+});
 let _Article = mongoose.model('postArticle', article)
 
 
@@ -23,7 +24,7 @@ let _Article = mongoose.model('postArticle', article)
  */
 module.exports.findArticleByTag = tag =>{
  return _Article.find({tags:{$regex:tag}})
-}
+};
 
 /**
  * 文章详情页面
@@ -31,7 +32,7 @@ module.exports.findArticleByTag = tag =>{
  */
 module.exports.findArticleOne = id =>{
   return _Article.find({_id:id})
-}
+};
 
 /**
  * 获取所有标签
@@ -39,7 +40,7 @@ module.exports.findArticleOne = id =>{
  */
 module.exports.findArticleAllTag = () =>{
   return _Article.find({}, {tags:1,"_id":0})
-}
+};
 
 /**
  * 获取所有文章数
@@ -47,7 +48,7 @@ module.exports.findArticleAllTag = () =>{
  */
 module.exports.getArticleCount = () =>{
   return _Article.count()
-}
+};
 
 /**
  * 获取分页的个数
@@ -57,7 +58,7 @@ module.exports.getArticleCount = () =>{
  */
 module.exports.getArticlePage = (start,pageLimit) =>{
   return _Article.find({}).sort({time:-1}).skip(start).limit(pageLimit).exec();
-}
+};
 
 /**
  * 获取最新3个
@@ -66,7 +67,7 @@ module.exports.getArticlePage = (start,pageLimit) =>{
  */
 module.exports.getArticleNew = pageLimit =>{
   return _Article.find({}).sort({time:-1}).limit(pageLimit).exec();
-}
+};
 
 /**
  * 发布文章
@@ -91,4 +92,9 @@ module.exports.postArticle = data =>{
  */
 module.exports.deleteArticle = id =>{
   return _Article.remove({_id:id}).exec()
+};
+
+module.exports.editArticle = data =>{
+    let articleData = {...data,lastChangeTime: moment().format("YYYY-MM-DD HH:mm:ss")};
+    return _Article.update({_id:articleData._id},articleData)
 };
