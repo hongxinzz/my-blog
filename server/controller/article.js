@@ -1,4 +1,6 @@
 const articleModule = require('../module/article');
+const checkToken = require('../token/token.js');
+
 
 /**
  * 通过标签查找文章(模糊搜索)
@@ -87,10 +89,12 @@ module.exports.getArticleNew = async ctx => {
  */
 module.exports.postArticle = async ctx =>{
   let data = ctx.request.body;
-  await articleModule.postArticle(data)
-    .then(res=>{
-      checkDataType(ctx,res)
-    })
+    if(await checkToken.check(ctx)) {
+        await articleModule.postArticle(data)
+            .then(res => {
+                checkDataType(ctx, res)
+            })
+    }
 };
 
 /**
@@ -100,10 +104,13 @@ module.exports.postArticle = async ctx =>{
  */
 module.exports.deleteArticle = async  ctx =>{
     let data = ctx.request.body;
-    await  articleModule.deleteArticle(data.id)
-        .then(res=>{
-            checkDataType(ctx,res)
-        })
+    if(await checkToken.check(ctx)){
+        await articleModule.deleteArticle(data.id)
+            .then(res=>{
+                checkDataType(ctx,res)
+            })
+    }
+
 };
 
 /**
@@ -113,11 +120,13 @@ module.exports.deleteArticle = async  ctx =>{
  */
 module.exports.editArticle = async ctx =>{
     let data = ctx.request.body;
-    await articleModule.editArticle(data)
-        .then(res=>{
-            console.log(res)
-            checkDataType(ctx,res)
-        })
+    if(await checkToken.check(ctx)) {
+        await articleModule.editArticle(data)
+            .then(res => {
+                console.log(res)
+                checkDataType(ctx, res)
+            })
+    }
 };
 
 
