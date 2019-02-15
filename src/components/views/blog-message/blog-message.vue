@@ -81,7 +81,6 @@
 
 <script>
   import BlogHeader from '../blog-header/blog-header.vue'
-  import { Message } from 'element-ui';
   export default {
     name: 'blog-message',
     components:{ BlogHeader },
@@ -145,13 +144,13 @@
           this.email,
           this.content,this.pic)
         if(this.userName === ""){
-          Message.error('要输入大名才能认识你哦！')
+          // Message.error('要输入大名才能认识你哦！')
           return false
         }else if(this.email === ""){
-          Message.error('要输入邮箱才能跟您联系！')
+          // Message.error('要输入邮箱才能跟您联系！')
           return false
         }else if(this.content === ""){
-          Message.error('要输入内容才知道问题哦！')
+          // Message.error('要输入内容才知道问题哦！')
           return false
         }
         this.axios.post('/api/post_message', {
