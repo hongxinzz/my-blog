@@ -1,4 +1,7 @@
-const userModal = require('../module/user')
+const userModal = require('../module/user');
+//token中间件
+const jwt = require('jsonwebtoken');
+const serect = 'token';
 
 /**
  * 用户登录
@@ -7,13 +10,18 @@ const userModal = require('../module/user')
  */
 module.exports.userLogin = async ctx =>{
   let data = ctx.request.body;
-  console.log(data)
+  // console.log(data);
   await userModal.userLogin(data)
     .then(res=>{
-      console.log(res)
+        const token = jwt.sign({
+            user: res.userName,
+        }, serect, {expiresIn: '1h'});
+      if(res){
+          res = {...res,token:token}
+      }
       checkDataType(ctx,res)
     })
-}
+};
 
 /**
  * 用户注册
