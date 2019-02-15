@@ -27,6 +27,8 @@
     .child-router{
         flex: 1;
         padding: 20px;
+        height: calc(100vh - 40px);
+        overflow: scroll;
     }
 }
 </style>
