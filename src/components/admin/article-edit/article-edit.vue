@@ -49,9 +49,12 @@
                 <label>内容:</label>
                 <textarea v-model="editArticle.content"></textarea>
             </div>
-            <div>
+            <div class="tags">
                 <label>标签:</label>
-                <span v-for="(item,index) in editArticle.tags" :key="index">{{item}}</span>
+                <input type="text" v-for="(item,index) in tags" :key="index" v-model="tags[index]">
+                <input type="text" v-model="newTags" v-if="tags.length < 3">
+                <button @click="addNewTags()"  v-if="tags.length < 3">添加</button>
+                <!--<span v-for="(item,index) in editArticle.tags" :key="index">{{item}}</span>-->
             </div>
         </EditModal>
     </div>
@@ -70,7 +73,9 @@
                 page: 1,
                 pageLimit: 999,
                 showModal:false,
-                editArticle:{}
+                editArticle:{},
+                tags:[],
+                newTags:'',
             }
         },
         created: function () {
@@ -87,6 +92,12 @@
                     this.articleList = data.data.data
                 })
             },
+            addNewTags(){
+                if(this.newTags === "")return;
+                this.tags.push(this.newTags);
+                console.log(this.tags)
+                this.newTags = '';
+            },
             deleteArticle(index){
                 let that = this;
                 this.axios.post('/api/delete_article', {
@@ -99,6 +110,7 @@
             showEditModal(i){
                this.showModal = true;
                this.editArticle = this.articleList[i];
+               this.tags.push(...this.editArticle.tags);
             },
             saveArticle(){
                 let that = this;
@@ -107,7 +119,7 @@
                     title: this.editArticle.title,
                     introduction: this.editArticle.introduction,
                     cover:this.editArticle.cover,
-                    tags:this.editArticle.tagsList,
+                    tags:this.tags,
                     content:this.editArticle.content
                 }).then(function (data) {
                     console.log(data)
@@ -118,6 +130,7 @@
                 })
             },
             cancel() {
+                this.tags = []
                 this.showModal = false;
             }
         }
@@ -220,6 +233,20 @@
                     font-size: 14px;
                     line-height: 1.5;
                     background-color: #fff;
+                }
+            }
+            .tags{
+                input{
+                    margin-right: 20px;
+                }
+                button{
+                    background-color: #fff;
+                    border: 1px solid #d9d9d9;
+                    border-radius: 4px;
+                    box-sizing: border-box;
+                    margin: 0;
+                    padding: 4px 11px;
+                    cursor: pointer;
                 }
             }
         }
