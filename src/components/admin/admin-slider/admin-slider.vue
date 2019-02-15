@@ -13,7 +13,6 @@
                         </p>
                         <ul>
                             <li @click.stop="goChildPath('/admin-home')"><i></i>概览</li>
-                            <li><i></i>个人设置</li>
                         </ul>
                     </div>
                 </li>
@@ -24,9 +23,7 @@
                         </p>
                         <ul>
                             <li  @click.stop="goChildPath('/admin-home/article-edit')">管理</li>
-                            <li @click.stop="goChildPath('/admin-home/tags-edit')">标签设置</li>
-                            <input type="text" v-model="articleId">
-                            <button @click="deleteArticle()">删除</button>
+                            <li @click.stop="goChildPath('/admin-home/article-write')">撰写</li>
                         </ul>
                     </div>
                 </li>
@@ -42,8 +39,8 @@
             return{
                 articleId:'',
                 collapse:{
-                    collapse1:false,
-                    collapse2:false,
+                    collapse1:true,
+                    collapse2:true,
                     collapse3:false
                 }
             }
