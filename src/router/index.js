@@ -1,23 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import BlogAdmin from '../components/views/blog-admin/blog-admin.vue'
+import BlogAdmin from '../components/admin/blog-admin/blog-admin.vue'
 import BlogIndex from '../components/views/blog-index/blog-index.vue'
 import BlogDetails from '../components/views/blog-details/blog-details.vue'
 import BlogTags from '../components/views/blog-tags/blog-tags.vue'
 import BlogMessage from '../components/views/blog-message/blog-message.vue'
-import BlogPostArticle from '../components/views/blog-post-article/blog-post-article.vue'
+// import BlogPostArticle from '../components/views/blog-post-article/blog-post-article.vue'
 
 /************************博客后台**************************/
 import AdminSlider from '../components/admin/admin-slider/admin-slider.vue'
 import AdminHome from '../components/admin/admin-home/admin-home.vue'
 import OverView from '../components/admin/over-view/over-view.vue'
 import ArticleEdit from '../components/admin/article-edit/article-edit.vue'
-import TagsEdit from '../components/admin/tags-edit/tags-edit.vue'
+import ArticleWrite from '../components/admin/article-write/article-write.vue'
 
 
 Vue.use(Router);
 
-export default new Router({
+const router =  new Router({
     routes: [
         {
             path: '',
@@ -57,14 +57,6 @@ export default new Router({
             },
         },
         {
-            path: '/post-article',
-            name: 'post-article',
-            component: BlogPostArticle,
-            meta: {
-                navShow: true, // true显示，false隐藏
-            },
-        },
-        {
             path: '/admin-home',
             name: 'admin-home',
             component: AdminHome,
@@ -76,16 +68,25 @@ export default new Router({
                     path: '',
                     component: OverView,
                     name: 'overview',
+                    meta: {
+                        requiresAuth:true //必须登录
+                    }
                 },
                 {
                     path: 'article-edit',
                     component: ArticleEdit,
                     name: 'article-edit',
+                    meta: {
+                        requiresAuth:true //必须登录
+                    }
                 },
                 {
-                    path: 'tags-edit',
-                    component: TagsEdit,
-                    name: 'tags-edit',
+                    path: 'article-write',
+                    component: ArticleWrite,
+                    name: 'article-write',
+                    meta: {
+                        requiresAuth:true //必须登录
+                    }
                 }
             ]
         }
@@ -105,3 +106,28 @@ export default new Router({
         }
     }
 })
+
+//注册全局钩子用来拦截导航
+router.beforeEach((to, from, next) => {
+    console.log(1,to);
+    let token = localStorage.getItem('USER_LOGIN_TOKEN');
+    //判断要去的路由有没有requiresAuth
+    if(to.meta.requiresAuth){
+        console.log(2);
+        if(token){
+            //设置请求头 给后台验证
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+            next();
+        }else{
+            next({
+                path: '/admin',
+                query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+            });
+        }
+    }else{
+        next();//如果无需token,那么随它去吧
+    }
+});
+
+
+export default router;
