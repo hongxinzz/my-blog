@@ -31,6 +31,7 @@
 </template>
 
 <script>
+  import {getBlogsPage} from '../../../api/api.js';
 export default {
   name: 'blog-article',
   data () {
@@ -55,28 +56,23 @@ export default {
         }
       }
       this.pageNum = page
-      this.axios.get('/api/get_blogs_page', {
-        params: {
-          page: page,
-          pageLimit:this.pageLimit
-        }
-      }).then(data => {
-        this.blogList = data.data.data
-        this.pageCount = Math.ceil(data.data.count / this.pageLimit)
-        console.log(this.blogList)
-      })
+        getBlogsPage({ page: page, pageLimit:this.pageLimit})
+            .then(data => {
+                this.blogList = data.data;
+                this.pageCount = Math.ceil(data.count / this.pageLimit)
+            })
     },
-    getBlogPage () {
-      this.axios.get('/api/get_blogs_page', {
-        params: {
-          id: this.blog_id
-        }
-      }).then(data => {
-        this.blogData = data.data.data[0]
-      }).then(err => {
-        console.log(err)
-      })
-    }
+    // getBlogPage () {
+    //   this.axios.get('/api/get_blogs_page', {
+    //     params: {
+    //       id: this.blog_id
+    //     }
+    //   }).then(data => {
+    //     this.blogData = data.data.data[0]
+    //   }).then(err => {
+    //     console.log(err)
+    //   })
+    // }
   }
 }
 </script>

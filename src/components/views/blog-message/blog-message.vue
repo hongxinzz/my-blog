@@ -80,6 +80,7 @@
 </template>
 
 <script>
+  import {postMessage,getBlogsPage,getBlogMessage,deleteBlogMessage} from '../../../api/api.js'
   import BlogHeader from '../blog-header/blog-header.vue'
   export default {
     name: 'blog-message',
@@ -114,12 +115,10 @@
         this.isHover = false;
       },
       getBlogData(){
-        this.axios.get('/api/get_blogs_page', {
-          params: {
-            page: this.page,
-          }
+          getBlogsPage({
+            page: this.page
         }).then(data => {
-          this.checkDatas(data.data.data)
+          this.checkDatas(data.data)
         })
       },
       goDetail(id){
@@ -139,35 +138,31 @@
         }
       },
       postMessages(){
-        let that = this
+        let that = this;
         console.log( this.userName,
           this.email,
           this.content,this.pic)
         if(this.userName === ""){
-          // Message.error('要输入大名才能认识你哦！')
           return false
         }else if(this.email === ""){
-          // Message.error('要输入邮箱才能跟您联系！')
           return false
         }else if(this.content === ""){
-          // Message.error('要输入内容才知道问题哦！')
           return false
         }
-        this.axios.post('/api/post_message', {
+          postMessage({
           userName: this.userName,
           email: this.email,
           content:this.content,
           pic:this.pic
         }).then(function (data) {
           if(data){
-            Message.success('您的留言发表成功！')
             that.getBlogMessage()
           }
         })
       },
       getBlogMessage(){
-        this.axios.get('/api/get_blog_message').then(data=>{
-          this.messageList = data.data
+          getBlogMessage('/api/get_blog_message').then(data=>{
+          this.messageList = data
         })
       },
       deleteMessage(messageId){
@@ -175,14 +170,13 @@
         let userRoot = JSON.parse(window.localStorage.getItem('USER_LOGIN'));
         console.log(userRoot)
         if(userRoot !== true){
-          Message.error('当前只有管理员可以操作！')
           return
         }
-        this.axios.post('/api/delete_blog_message', {
+          deleteBlogMessage({
           id:messageId
         }).then(function (data) {
-         if(data.n !== 1){
-           Message.success('删除成功');
+            console.log(data)
+         if(data.n === 1){
            that.getBlogMessage();
          }
         })
