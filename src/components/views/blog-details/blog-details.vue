@@ -1,7 +1,7 @@
 <template>
-    <div class="details-wrap">
+    <div class="details-wrap" v-if="blogData">
         <blogHeader/>
-        <div class="details-banner" v-if="blogData">
+        <div class="details-banner">
             <div class="details-header">
                 <div class="header-tags">
                     <router-link v-for="(tags,index) in blogData.tags" :key="index"
@@ -31,7 +31,7 @@
         data() {
             return {
                 blog_id: '',
-                blogData: ''
+                blogData: '',
             }
         },
         created: function () {
@@ -113,24 +113,35 @@
     }
 
     .markdown-wrap {
-        position: relative;
-        width: 100%;
-        background-color: #fff;
-        overflow: hidden;
-        padding: 40px 0 80px;
+        box-sizing: border-box;
+        padding-top: 90px;
+        background-color: #fcfcfc;
         .markdown {
-            width: 860px;
-            box-sizing: border-box;
-            padding: 0 0 32px;
+            position: relative;
+            max-width: 850px;
             margin: 0 auto;
+            padding: 20px 60px 40px;
+            box-shadow: 1px 1px 8px rgba(0,0,0,.15);
+            background-color: #fff;
+            border-radius: 2px;
+            box-sizing: border-box;
             * {
                 font-size: 14px;
             }
-            p {
-                font-size: 14px;
-                line-height: 1.8;
-                text-align: justify;
-            }
+           pre{
+               position: relative;
+               line-height: 1.75;
+               code{
+                   padding: 18px 15px 12px;
+                   overflow-x: auto;
+                   overflow-scrolling: touch;
+                   margin: 0;
+                   word-break: normal;
+                   display: block;
+                   color: #333;
+                   background: #f8f8f8;
+               }
+           }
             .hljs {
                 padding: 1em;
                 margin: .5em 0;
@@ -145,12 +156,20 @@
                 line-height: 1.5;
             }
             h1 ~ h6 {
-                border-bottom: 1px solid #eee;
-                padding-bottom: 10px;
+                color: #333;
+                line-height: 1.5;
+                margin-top: 35px;
+                margin-bottom: 10px;
+                padding-bottom: 5px;
+            }
+            h1{
+                font-size: 30px;
+                margin-bottom: 5px;
             }
             h2 {
+                padding-bottom: 12px;
                 font-size: 24px;
-                line-height: 32px;
+                border-bottom: 1px solid #ececec;
             }
             h3 {
                 font-size: 20px;
@@ -166,10 +185,18 @@
                 }
             }
             code {
+                background-color: #fff5f5;
+                color: #ff502c;
+                font-size: .87em;
+                padding: .065em .4em;
+                word-break: break-word;
                 border-radius: 2px;
-                padding: 2px 4px;
+                overflow-x: auto;
             }
             p {
+                line-height: inherit;
+                margin-top: 22px;
+                margin-bottom: 22px;
                 code {
                     color: #c7254e;
                     background-color: #f9f2f4;
@@ -177,21 +204,21 @@
             }
             blockquote {
                 display: block;
-                padding: 16px;
-                margin: 0 0 24px;
-                border-left: 8px solid #dddfe4;
-                background: #eef0f4;
-                overflow: auto;
+                color: #666;
+                padding: 1px 23px;
+                margin: 22px 0;
+                border-left: 4px solid #cbcbcb;
+                background-color: #f8f8f8;
                 p {
-                    font-size: 14px;
-                    line-height: 22px;
-                    color: #999;
-                    font-weight: 400;
-                    margin-bottom: 0;
+                    margin: 10px 0;
                 }
                 &::before, &::after {
                     content: '';
                 }
+            }
+            a{
+                color: #0269c8;
+                border-bottom: 1px solid #d1e9ff;
             }
         }
     }
