@@ -5,7 +5,7 @@ import BlogIndex from '../components/views/blog-index/blog-index.vue'
 import BlogDetails from '../components/views/blog-details/blog-details.vue'
 import BlogTags from '../components/views/blog-tags/blog-tags.vue'
 import BlogMessage from '../components/views/blog-message/blog-message.vue'
-// import BlogPostArticle from '../components/views/blog-post-article/blog-post-article.vue'
+import BlogProject from '../components/views/blog-project/blog-project.vue'
 
 /************************博客后台**************************/
 import AdminSlider from '../components/admin/admin-slider/admin-slider.vue'
@@ -17,7 +17,7 @@ import ArticleWrite from '../components/admin/article-write/article-write.vue'
 
 Vue.use(Router);
 
-const router =  new Router({
+const router = new Router({
     routes: [
         {
             path: '',
@@ -57,6 +57,14 @@ const router =  new Router({
             },
         },
         {
+            path: '/project',
+            name: 'project',
+            component: BlogProject,
+            meta: {
+                navShow: true, // true显示，false隐藏
+            },
+        },
+        {
             path: '/admin-home',
             name: 'admin-home',
             component: AdminHome,
@@ -69,7 +77,7 @@ const router =  new Router({
                     component: OverView,
                     name: 'overview',
                     meta: {
-                        requiresAuth:true //必须登录
+                        requiresAuth: true //必须登录
                     }
                 },
                 {
@@ -77,7 +85,7 @@ const router =  new Router({
                     component: ArticleEdit,
                     name: 'article-edit',
                     meta: {
-                        requiresAuth:true //必须登录
+                        requiresAuth: true //必须登录
                     }
                 },
                 {
@@ -85,7 +93,7 @@ const router =  new Router({
                     component: ArticleWrite,
                     name: 'article-write',
                     meta: {
-                        requiresAuth:true //必须登录
+                        requiresAuth: true //必须登录
                     }
                 }
             ]
@@ -109,23 +117,23 @@ const router =  new Router({
 
 //注册全局钩子用来拦截导航
 router.beforeEach((to, from, next) => {
-    console.log(1,to);
+    console.log(1, to);
     let token = localStorage.getItem('USER_LOGIN_TOKEN');
     //判断要去的路由有没有requiresAuth
-    if(to.meta.requiresAuth){
+    if (to.meta.requiresAuth) {
         console.log(2);
-        if(token){
+        if (token) {
             //设置请求头 给后台验证
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             next();
-        }else{
+        } else {
             next({
                 path: '/admin',
                 query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
             });
         }
-    }else{
-        next();//如果无需token,那么随它去吧
+    } else {
+        next();//无需token
     }
 });
 
