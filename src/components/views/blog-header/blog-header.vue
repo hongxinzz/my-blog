@@ -4,9 +4,10 @@
     <div class="logo"></div>
     <nav class="r-nav">
       <ul>
-        <li><router-link to="/"> <i class="iconfont blog-shouye"></i>HOME</router-link></li>
-        <li><router-link :to="{name:'tags',params: {type:'html'}}"> <i class="iconfont blog-biaoqian"></i>TAGS</router-link></li>
-        <li><router-link to="/message"><i class="iconfont blog-liuyanban"></i> Message</router-link></li>
+        <li><router-link to="/"> <i class="iconfont blog-shouye"></i>Home</router-link></li>
+        <li><router-link :to="{name:'tags',params: {type:'html'}}"> <i class="iconfont blog-biaoqian"></i>Tags</router-link></li>
+        <li><router-link to="/message"><i class="iconfont blog-liuyanban"></i>Message</router-link></li>
+        <li><router-link to="/project"><i class="iconfont blog-liuyanban"></i>Project</router-link></li>
       </ul>
     </nav>
     <div class="claerfix"></div>
