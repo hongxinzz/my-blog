@@ -1,11 +1,11 @@
 <template>
     <div class="project-wrap">
-       <div class="project">
-           <div class="project-item">
-               <img src="http://www.sumitpaul.com/wp-content/uploads/2017/12/hh-thumb.jpg" alt="">
-               <p class="project-name">demo</p>
-               <div class="project-des">
-                        demo
+       <div class="project" v-if="projectList">
+           <div class="project-item" v-for="(item,index)  in  projectList">
+               <img :src="item.imgUrl" alt="">
+               <p class="project-name">{{item.des}}</p>
+               <div class="project-des"  @click="openNewUrl(index)">
+                        {{item.title}}
                </div>
            </div>
        </div>
@@ -14,7 +14,29 @@
 
 <script>
     export default {
-        name: "blog-project"
+        name: "blog-project",
+        data(){
+            return{
+                projectList:[]
+            }
+        },
+        created(){
+            this.getProjectList()
+        },
+        methods:{
+            getProjectList(){
+                this.axios.get('/api/get_blogs_project').then(data=>{
+                   if(data.data){
+                       this.projectList = data.data;
+                       console.log(this.projectList)
+                   }
+                })
+            },
+            openNewUrl(i){
+                console.log(1)
+               window.open(this.projectList[i].openUrl,'_blank');
+            }
+        }
     }
 </script>
 
@@ -32,17 +54,20 @@
         .project-item{
             position: relative;
             width:465px;
-            height: 289px;
+            height: 314px;
             margin-right:20px;
             margin-bottom: 30px;
             cursor: pointer;
             img{
                 display: inline-block;
                 width: 100%;
-                height: 100%;
+                height:289px;
                 transition: all .3s linear;
             }
             .project-name{
+                position: absolute;
+                left: 0;
+                bottom: 0;
                 margin-top: 10px;
                 font-size: 18px;
                 color: #999;
@@ -52,7 +77,7 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                height: 100%;
+                height: 289px;
                 width: 100%;
                 line-height: 1.6;
                 font-size: 20px;
