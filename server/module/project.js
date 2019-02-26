@@ -5,7 +5,8 @@ const project = new mongoose.Schema({
     id: Number,
     imgUrl: String,
     des: String,
-    title:String
+    title:String,
+    openUrl:String
 })
 
 let _Project = mongoose.model('Project', project);
@@ -20,7 +21,8 @@ module.exports.postProject =  data =>{
     let person = new _Project({
         imgUrl: data.imgUrl,
         des: data.des,
-        title:data.title
+        title:data.title,
+        openUrl:data.openUrl
     });
     return  person.save();
 };
