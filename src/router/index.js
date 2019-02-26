@@ -8,7 +8,7 @@ import BlogMessage from '../components/views/blog-message/blog-message.vue'
 import BlogProject from '../components/views/blog-project/blog-project.vue'
 
 /************************博客后台**************************/
-import AdminSlider from '../components/admin/admin-slider/admin-slider.vue'
+import AdminProject from '../components/admin/admin-project/admin-project.vue'
 import AdminHome from '../components/admin/admin-home/admin-home.vue'
 import OverView from '../components/admin/over-view/over-view.vue'
 import ArticleEdit from '../components/admin/article-edit/article-edit.vue'
@@ -92,6 +92,14 @@ const router = new Router({
                     path: 'article-write',
                     component: ArticleWrite,
                     name: 'article-write',
+                    meta: {
+                        requiresAuth: true //必须登录
+                    }
+                },
+                {
+                    path:'admin-project',
+                    component:AdminProject,
+                    name:'admin-project',
                     meta: {
                         requiresAuth: true //必须登录
                     }
