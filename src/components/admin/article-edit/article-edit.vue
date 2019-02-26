@@ -151,10 +151,14 @@
             display: flex;
             p {
                 flex: 1;
+                max-width: 267px;
                 padding: 16px;
                 text-align: center;
                 font-size: 14px;
                 color:rgba(0, 0, 0, 0.65);
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
                 span{
                     padding: 10px;
                     margin: 0 5px;
