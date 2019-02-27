@@ -1,3 +1,5 @@
+import jsonP from 'jsonp';
+
 /**
  * get方法，对应get请求
  * @param {String} url
@@ -30,4 +32,35 @@ export function post(url, params) {
                 reject(err.data)
             })
     });
+}
+
+/**************************json 配置************************/
+
+
+/**
+ * jsonp 方法用来调取QQ 音乐
+ * @param url
+ * @param data
+ * @param option
+ */
+export function jsonp(url, data, option) {
+    url += (url.indexOf('?') < 0 ? '?' : '&') + param(data);
+    return new Promise((resolve, reject) => {
+        jsonP(url, option, (err, data) => {
+            if (!err) {
+                resolve(data)
+            } else {
+                reject(err)
+            }
+        })
+    })
+}
+
+function param(data) {
+    let url = '';
+    for (var k in data) {
+        let value = data[k] !== undefined ? data[k] : '';
+        url += `&${k}=${encodeURIComponent(value)}`
+    }
+    return url ? url.substring(1) : '';
 }
