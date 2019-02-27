@@ -12,18 +12,28 @@
                             <i></i>控制台
                         </p>
                         <ul>
-                            <li @click.stop="goChildPath('/admin-home')"><i></i>概览</li>
+                            <li @click.stop="goChildPath('/admin-home')">概览</li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item" @click="changeCollapse('collapse2')">
                     <div :class="[collapse.collapse2 ? 'menu-submenu collapse' :'menu-submenu']">
                         <p>
-                            <i></i>撰写
+                            <i></i>我的文章
                         </p>
                         <ul>
                             <li  @click.stop="goChildPath('/admin-home/article-edit')">管理</li>
                             <li @click.stop="goChildPath('/admin-home/article-write')">撰写</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item" @click="changeCollapse('collapse3')">
+                    <div :class="[collapse.collapse3 ? 'menu-submenu collapse' :'menu-submenu']">
+                        <p>
+                            <i></i>我的项目
+                        </p>
+                        <ul>
+                            <li  @click.stop="goChildPath('/admin-home/admin-project')">管理</li>
                         </ul>
                     </div>
                 </li>
@@ -41,7 +51,7 @@
                 collapse:{
                     collapse1:true,
                     collapse2:true,
-                    collapse3:false
+                    collapse3:true
                 }
             }
         },
@@ -54,8 +64,7 @@
                 })
             },
             changeCollapse(bool){
-                // console.log(e)
-                // e.stopPropagation();
+                console.log(this.collapse[bool])
                 this.collapse[bool]  = !this.collapse[bool];
             },
             goChildPath(path){
