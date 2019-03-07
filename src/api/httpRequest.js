@@ -1,4 +1,7 @@
 import jsonP from 'jsonp';
+import { getLocal, setLocal,removeLocal} from "../utils/utils";
+import router from '../router/index'
+
 
 /**
  * get方法，对应get请求
@@ -6,13 +9,17 @@ import jsonP from 'jsonp';
  * @param {Object} params
  */
 export function get(url, params) {
+    if(getLocal('USER_LOGIN_TOKEN')){
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+    }
     return new Promise((resolve, reject) => {
         axios.get(url, {
             params: params
         }).then(res => {
             resolve(res.data);
         }).catch(err => {
-            reject(err.data)
+            reject(err);
+            showErrorMsg(err.response.status)
         })
     });
 }
@@ -23,17 +30,42 @@ export function get(url, params) {
  * @param {Object} params
  */
 export function post(url, params) {
+    if(getLocal('USER_LOGIN_TOKEN')){
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+    }
     return new Promise((resolve, reject) => {
         axios.post(url, params)
             .then(res => {
                 resolve(res.data);
             })
             .catch(err => {
-                reject(err.data)
+                reject(err);
+                showErrorMsg(err.response.status)
             })
     });
 }
 
+function showErrorMsg(code) {
+    let errMsg = '';
+    console.log(code)
+    switch (code) {
+        case 401:
+            removeLocal('USER_LOGIN_TOKEN');
+            console.log(1)
+            router.push('/admin');
+            break;
+        case 501:
+            errMsg = '网络错误';
+            break;
+        case 500:
+            errMsg = '服务器未知错误';
+            break;
+        case 504:
+            errMsg = '网络延迟';
+            break;
+    }
+    console.log(errMsg)
+}
 /**************************json 配置************************/
 
 
