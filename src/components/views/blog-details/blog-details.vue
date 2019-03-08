@@ -128,20 +128,55 @@
             * {
                 font-size: 14px;
             }
-           pre{
-               position: relative;
-               line-height: 1.75;
-               code{
-                   padding: 18px 15px 12px;
-                   overflow-x: auto;
-                   overflow-scrolling: touch;
-                   margin: 0;
-                   word-break: normal;
-                   display: block;
-                   color: #333;
-                   background: #f8f8f8;
-               }
-           }
+            img{
+                display: block;
+                width: 100%;
+            }
+            table{
+                display: inline-block!important;
+                font-size: 1rem;
+                width: auto;
+                max-width: 100%;
+                overflow: auto;
+                border: 1px solid #f6f6f6;
+                tr{
+                    display: table-row;
+                    vertical-align: inherit;
+                    border-color: inherit;
+                }
+                td,th{
+                    min-width: 10rem;
+                    padding: 1rem .6rem;
+                    line-height: 2rem;
+                }
+                thead{
+                    display: table-header-group;
+                    vertical-align: middle;
+                    border-color: inherit;
+                    background: #f6f6f6;
+                    color: #000;
+                    text-align: left
+                }
+                tbody{
+                    display: table-row-group;
+                    vertical-align: middle;
+                    border-color: inherit;
+                }
+            }
+            pre{
+                position: relative;
+                line-height: 1.75;
+                code{
+                    padding: 18px 15px 12px;
+                    overflow-x: auto;
+                    overflow-scrolling: touch;
+                    margin: 0;
+                    word-break: normal;
+                    display: block;
+                    color: #333;
+                    background: #f8f8f8;
+                }
+            }
             .hljs {
                 padding: 1em;
                 margin: .5em 0;
