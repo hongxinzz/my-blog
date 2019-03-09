@@ -1,14 +1,14 @@
 <template>
-    <div class="singer-wrap">
-        <div class="head-nav" v-if="sinngers">
+    <div class="singer-wrap" ref="sing" @scroll="singerScroll">
+        <div class="head-nav" v-if="sinngers" @click="moveSingerList">
             <ul>
-                <li  v-for="(item,index) in sinngers">{{item.title.substring(0,1)}}</li>
+                <li  :data-index="index" :class="clickIndex == index ? 'active':''"  v-for="(item,index) in sinngers">{{item.title.substring(0,1)}}</li>
             </ul>
         </div>
-        <div class="singer-list">
-            <ul>
-                <li  v-for="(item,index) in sinngers">
-                    <h3>{{item.title}}</h3>
+        <div class="singer-list"  >
+            <ul :style="mainStyles" >
+                <li  v-for="(item,index) in sinngers" :data-index ="index" class="singer-item">
+                    <h3 >{{item.title}}</h3>
                    <div class="singer">
                       <div v-for="singer in item.item">
                           <img :src="singer.avatar" alt="">
@@ -24,6 +24,7 @@
 <script>
     import {getSingerList} from "../../../../api/api";
     import Singer from '../../../common/singer/singer.js'
+    import {getDataIndex} from "../../../../utils/utils";
 
     const HOT = '热搜';
     const DEFULT_LENGTH = 10;
@@ -31,8 +32,18 @@
         name: "blog-music-singer",
         data() {
             return {
-                sinngers: []
+                sinngers: [],
+                childTop:0,
+                clickIndex:0,
+                singList:[]
             }
+        },
+        computed:{
+            mainStyles(){
+                let style = {};
+                style.transform = `translateY(${-parseInt(this.childTop+40)}px)`;
+                return style;
+            },
         },
         created() {
             this._getSingerList()
@@ -85,6 +96,28 @@
                     return a.title.charCodeAt(0) - b.title.charCodeAt(0);
                 })
                 return hot.concat(sortList)
+            },
+            moveSingerList(e){
+                this.clickIndex = getDataIndex(e.target,'index');
+                this.singList = [...document.getElementsByClassName('singer-item')];
+                this.childTop = this.singList[this.clickIndex].offsetTop -this.$refs.sing.scrollTop;
+            },
+            singerScroll(e){
+                let topNum= e.target.scrollTop;
+                console.log(e)
+                let now = this.singList[this.clickIndex].offsetTop;
+                if(topNum < this.singList[this.clickIndex].offsetTop){
+                    this.childTop = 0
+                    e.target.scrollTop = this.singList[this.clickIndex].offsetTop
+                }
+                console.log(e.target.scrollTop,now)
+                if(topNum <=0){
+                    this.childTop = 0
+                }
+                if(topNum >= now){
+                    this.clickIndex = parseInt(this.clickIndex)+ 1
+                    now = this.singList[this.clickIndex].offsetTop
+                }
             }
         }
     }
@@ -108,12 +141,12 @@
                 flex-direction: column;
                 justify-content: center;
                 li{
-                    width: 20px;
-                    height: 20px;
+                    padding: 5px;
                     text-align: center;
                     border-radius: 50%;
                     font-size: 14px;
                     color: rgba(0,0,0,.6);
+                    cursor: pointer;
                 }
                 li.active{
                     color: #fff;
@@ -123,6 +156,9 @@
         }
        .singer-list{
            width: 1000px;
+           ul{
+               transition: all .5s linear;
+           }
            h3{
                width: 100%;
                box-sizing: border-box;
