@@ -8,6 +8,7 @@ import BlogMessage from '../components/views/blog-message/blog-message.vue'
 import BlogProject from '../components/views/blog-project/blog-project.vue'
 import BlogMusic from '../components/views/blog-music/blog-music.vue'
 import Singerr from  '../components/views/blog-music/blog-music-singer/blog-music-singer.vue'
+import SingerDetail from '../components/views/blog-music/blog-singer-detail/blog-singer-detail.vue'
 
 /************************博客后台**************************/
 import AdminProject from '../components/admin/admin-project/admin-project.vue'
@@ -87,12 +88,13 @@ const router = new Router({
                     meta: {
                         navShow: true, // true显示，false隐藏
                     },
-                }
+                },
+                {
+                    path:'/singerDetail/:id',
+                    name:'singerDetail',
+                    component:SingerDetail,
+                },
                 // {
-                //     path:'/rank',
-                //     name:'rank',
-                //     component:Rank,
-                // }, {
                 //     path:'/myFavorite',
                 //     name:'myFavorite',
                 //     component:MyFavorite,
