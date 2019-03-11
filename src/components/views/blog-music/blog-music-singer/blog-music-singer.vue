@@ -10,7 +10,7 @@
                 <li  v-for="(item,index) in sinngers" :data-index ="index" class="singer-item">
                     <h3 >{{item.title}}</h3>
                    <div class="singer">
-                      <div v-for="singer in item.item">
+                      <div v-for="singer in item.item" @click="selectItem(singer)">
                           <img :src="singer.avatar" alt="">
                           <p>{{singer.name}}</p>
                       </div>
@@ -24,7 +24,8 @@
 <script>
     import {getSingerList} from "../../../../api/api";
     import Singer from '../../../common/singer/singer.js'
-    import {getDataIndex,debounce} from "../../../../utils/utils";
+    import {getDataIndex} from "../../../../utils/utils";
+    import  {mapMutations} from 'vuex'
 
     const HOT = '热搜';
     const DEFULT_LENGTH = 10;
@@ -52,6 +53,9 @@
             this._getSingerList()
         },
         methods: {
+            ...mapMutations({
+                setSinger:'setSinger'
+            }),
             _getSingerList() {
                 getSingerList().then(data => {
                     if (data.code === 0) {
@@ -125,6 +129,11 @@
                 }
                 this.endScroll = this.startScroll
                 this.moveSingerList(e, this.clickIndex);
+            },
+            selectItem(item){
+                // console.log(item.id,item)
+                this.$router.push('/singerDetail/'+item.id)
+                this.setSinger(item)
             }
         }
     }
