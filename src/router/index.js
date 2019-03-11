@@ -6,6 +6,8 @@ import BlogDetails from '../components/views/blog-details/blog-details.vue'
 import BlogTags from '../components/views/blog-tags/blog-tags.vue'
 import BlogMessage from '../components/views/blog-message/blog-message.vue'
 import BlogProject from '../components/views/blog-project/blog-project.vue'
+import BlogMusic from '../components/views/blog-music/blog-music.vue'
+import Singerr from  '../components/views/blog-music/blog-music-singer/blog-music-singer.vue'
 
 /************************博客后台**************************/
 import AdminProject from '../components/admin/admin-project/admin-project.vue'
@@ -13,6 +15,7 @@ import AdminHome from '../components/admin/admin-home/admin-home.vue'
 import OverView from '../components/admin/over-view/over-view.vue'
 import ArticleEdit from '../components/admin/article-edit/article-edit.vue'
 import ArticleWrite from '../components/admin/article-write/article-write.vue'
+import {getLocal} from "../utils/utils";
 
 
 Vue.use(Router);
@@ -63,6 +66,42 @@ const router = new Router({
             meta: {
                 navShow: true, // true显示，false隐藏
             },
+        },
+        {
+            path: '/music',
+            name: 'music',
+            component: BlogMusic,
+            meta: {
+                navShow: true, // true显示，false隐藏，
+            },
+            children: [
+                // {
+                //     path:'/recommend',
+                //     name:'recommend',
+                //     component:Recommend,
+                // },
+                {
+                    path:'/singer',
+                    name:'singer',
+                    component:Singerr,
+                    meta: {
+                        navShow: true, // true显示，false隐藏
+                    },
+                }
+                // {
+                //     path:'/rank',
+                //     name:'rank',
+                //     component:Rank,
+                // }, {
+                //     path:'/myFavorite',
+                //     name:'myFavorite',
+                //     component:MyFavorite,
+                // }, {
+                //     path:'/latePlay',
+                //     name:'latePlay',
+                //     component:LatePlay,
+                // }
+            ]
         },
         {
             path: '/admin-home',
@@ -126,13 +165,13 @@ const router = new Router({
 //注册全局钩子用来拦截导航
 router.beforeEach((to, from, next) => {
     console.log(1, to);
-    let token = localStorage.getItem('USER_LOGIN_TOKEN');
+    let token = getLocal('USER_LOGIN_TOKEN');
     //判断要去的路由有没有requiresAuth
     if (to.meta.requiresAuth) {
         console.log(2);
         if (token) {
             //设置请求头 给后台验证
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
             next();
         } else {
             next({
