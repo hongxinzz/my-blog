@@ -1,5 +1,5 @@
 <template>
-    <div class="singer-wrap" ref="sing" @scroll="singerScroll">
+    <div class="singer-wrap" ref="sing" @scroll="move">
         <div class="head-nav" v-if="sinngers" @click="moveSingerList">
             <ul>
                 <li  :data-index="index" :class="clickIndex == index ? 'active':''"  v-for="(item,index) in sinngers">{{item.title.substring(0,1)}}</li>
@@ -24,7 +24,7 @@
 <script>
     import {getSingerList} from "../../../../api/api";
     import Singer from '../../../common/singer/singer.js'
-    import {getDataIndex} from "../../../../utils/utils";
+    import {getDataIndex,debounce} from "../../../../utils/utils";
 
     const HOT = '热搜';
     const DEFULT_LENGTH = 10;
@@ -35,7 +35,10 @@
                 sinngers: [],
                 childTop:0,
                 clickIndex:0,
-                singList:[]
+                singList:[],
+                startScroll:0,
+                endScroll:0,
+                firstScroll:true
             }
         },
         computed:{
@@ -97,27 +100,31 @@
                 })
                 return hot.concat(sortList)
             },
-            moveSingerList(e){
-                this.clickIndex = getDataIndex(e.target,'index');
+            moveSingerList(e,index){
                 this.singList = [...document.getElementsByClassName('singer-item')];
-                this.childTop = this.singList[this.clickIndex].offsetTop -this.$refs.sing.scrollTop;
+                if(index || index == 0){
+                    this.clickIndex = index
+                }else{
+                    this.clickIndex = getDataIndex(e.target,'index');
+                }
+                this.childTop = this.singList[this.clickIndex].offsetTop - this.$refs.sing.scrollTop;
+                // this.singList[this.clickIndex].childNodes[0].style.position = 'fixed';
             },
-            singerScroll(e){
-                let topNum= e.target.scrollTop;
-                console.log(e)
-                let now = this.singList[this.clickIndex].offsetTop;
-                if(topNum < this.singList[this.clickIndex].offsetTop){
-                    this.childTop = 0
-                    e.target.scrollTop = this.singList[this.clickIndex].offsetTop
+            move(e){
+                this.startScroll = this.$refs.sing.scrollTop;
+                if(this.startScroll >= this.endScroll){
+                    this.clickIndex = parseInt(this.clickIndex) + 1
+                }else if(this.startScroll <= this.endScroll){
+                    this.clickIndex = parseInt(this.clickIndex) - 1
                 }
-                console.log(e.target.scrollTop,now)
-                if(topNum <=0){
-                    this.childTop = 0
+                if(this.clickIndex < 0){
+                    this.clickIndex = 0;
                 }
-                if(topNum >= now){
-                    this.clickIndex = parseInt(this.clickIndex)+ 1
-                    now = this.singList[this.clickIndex].offsetTop
+                if(this.singList.length &&this.clickIndex  >=this.singList.length-1){
+                    this.clickIndex=this.singList.length-1
                 }
+                this.endScroll = this.startScroll
+                this.moveSingerList(e, this.clickIndex);
             }
         }
     }
