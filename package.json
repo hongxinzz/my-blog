@@ -19,11 +19,14 @@
   },
   "homepage": "https://github.com/hongxinzz/my-blog#readme",
   "devDependencies": {
+    "@babel/preset-es2015": "^7.0.0-beta.53",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "css-loader": "^0.28.4",
     "style-loader": "^0.18.2",
     "vue": "^2.5.22",
     "vue-loader": "^15.5.1",
     "vue-template-compiler": "^2.5.22",
+    "vuex": "^3.1.0",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14"
@@ -37,6 +40,7 @@
     "compression-webpack-plugin": "^2.0.0",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
     "html-webpack-plugin": "^3.2.0",
+    "jsonp": "^0.2.1",
     "jsonwebtoken": "^8.4.0",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
